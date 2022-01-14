@@ -1,8 +1,11 @@
 # homed
 
+* [GitHub Repo](https://github.com/mwalters/homed)
+* [Docker Hub](https://hub.docker.com/r/mwalters/homed)
+
 `homed` is a light-weight customizable portal primarily intended for the "self-hosted" crowd with built-in support for local authentication services (e.g. Authelia).  The user configures options and which links to display using a `yaml` file, and also has access to the HTML template (which uses [Jinja](https://jinja.palletsprojects.com/en/3.0.x/)), CSS, and JavaScript.  All resources are hosted locally.  Access to links is controlled via groups passed in by the authentication service using the `Remote-Groups` request header (which Authelia supports).
 
-![homed](https://github.com/mwalters/homed/raw/main/screenshots/homed.png?raw=true "homed")
+<img src="https://github.com/mwalters/homed/raw/main/screenshots/homed.png?raw=true" alt="homed" width="100%">
 
 ## Features
 * Auth integration (e.g. [Authelia](https://www.authelia.com/))
