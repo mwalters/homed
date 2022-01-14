@@ -34,9 +34,6 @@ def display_home():
         sorted(config["sections"], key=itemgetter("order")), request.headers
     )
 
-    if "auth_ui_link" not in config:
-        config["auth_ui_link"] = False
-
     app.logger.info("user={user}, path=/".format(user=user["username"]))
 
     return render_template(

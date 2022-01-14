@@ -10,7 +10,7 @@ sections:
       -
         name: Plex
         link: https://msw.io/plex
-        icon: far fa-play-circle
+        icon: /logos/plex.png
         authGroups:
           - users
   - Quick Links:
@@ -20,13 +20,13 @@ sections:
       -
         name: Amazon
         link: https://smile.amazon.com/
-        icon: fab fa-amazon
+        icon: /logos/amazon.svg
         authGroups:
           - users
       -
         name: Github
         link: https://github.com/mwalters/homed
-        icon: fab fa-github
+        icon: /logos/github.png
         authGroups:
           - admins
       -
@@ -42,12 +42,12 @@ sections:
       -
         name: "Authelia"
         link: https://msw.io/authelia
-        icon: fas fa-user-ninja
+        icon: /logos/authelia.png
         authGroups:
           - users
       -
         name: "Dozzle"
         link: https://msw.io/dozzle/
-        icon: fas fa-list-ul
+        icon: /logos/dozzle.png
         authGroups:
           - admins
