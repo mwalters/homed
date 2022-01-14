@@ -11307,6 +11307,10 @@ textarea.form-control-lg {
   right: 5px;
 }
 
+svg.section-link-icon {
+  font-size: 2.5em;
+}
+
 .non-link {
   cursor: auto;
 }

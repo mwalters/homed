@@ -4,6 +4,12 @@
 
 ![homed](https://github.com/mwalters/homed/raw/main/screenshots/homed.png?raw=true "homed")
 
+## Features
+* Auth integration (e.g. [Authelia](https://www.authelia.com/))
+* Full access to HTML, CSS, JavaScript
+* Simple `yaml` configuration file
+* FontAwesome icon support
+
 ## Getting up and running
 The easiest way to get up and running is with Docker.
 
@@ -73,14 +79,16 @@ sections:
 
 * `name` will be displayed in the title bar of the browser and at the top of the page
 * `open_links_in_new_window` should be set to `true` or `false` depending on whether you want your links to open in a new browser window/tab or not
-* `auth_ui_link` should be provided if you use an authentication provider such as Authelia.  This will be used to allow the user to log out or visit the Authelia page for whatever reason
+* `auth_ui_link` should be provided if you use an authentication provider such as Authelia.  This will be used to allow the user to log out or visit the Authelia page for whatever reason.  This can be completely removed if you do not use any sort of auth system.
 * `sections` is a list of sections.  In the screenshot above, they are the containers that hold groups of links
     * `name` is the name for the section
     * `order` is the order the sections should be placed in on the screen (left to right, top to bottom)
     * `links` is a list of links to go in this section
         * `name` is the text to display in the link
         * `link` is the URL to send the user to when clicked
-        * `icon` is the image to use for the link.  Some are provided in the image, but you can add your own by placing them in `app/assets/logos` and then referencing them here with `/logos/filename.ext`
+        * `icon` is the image to use for the link.
+          * Some image files are provided as part of the container image, but you can add your own by placing them in `app/assets/logos` and then referencing them here with `/logos/filename.ext`.
+          * The icon field can also support FontAwesome icons.  For instance, if you wanted to use the [User Ninja](https://fontawesome.com/v5.15/icons/user-ninja?style=solid) icon, you would supply the value for the `<i>` class, e.g. `fas fa-user-ninja`
         * `authGroups` is a list of groups passed in by your authentication service that you wish to have access to this link.  If the user does not belong to one of the groups specified, the link will not be displayed.  If no groups are provided here, then the links will be displayed to any/all users.
 
 Add as many sections and links within those sections as you would like.
