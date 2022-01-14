@@ -98,3 +98,10 @@ As mentioned above, you have full access to the HTML (which supports [Jinja](htt
 
 ## Notes
 * `homed` has no built in user system.  It is relying on your authentication provider to supply the expected headers: `Remote-User`, `Remote-Name`, `Remote-Email`, `Remote-Groups`.  These are provided by default with Authelia if you are using it with [SWAG](https://docs.linuxserver.io/general/swag).  If authentication information is not provided, then all links will be available to all users that can access the page.
+
+## Versioning
+Semver will be followed.  For version `x.y.z`
+
+* `x` Major version release, breaking changes
+* `y` Minor version release, no breaking changes, added features
+* `z` Bug release, no breaking changes, no new features
