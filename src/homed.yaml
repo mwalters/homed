@@ -1,0 +1,53 @@
+name: homed
+open_links_in_new_window: true
+auth_ui_link: https://yourhost/authelia
+
+sections:
+  - Media:
+    name: "Media"
+    order: 1
+    links:
+      -
+        name: Plex
+        link: https://msw.io/plex
+        icon: /logos/plex.png
+        authGroups:
+          - users
+  - Quick Links:
+    name: "Quick Links"
+    order: 2
+    links:
+      -
+        name: Amazon
+        link: https://smile.amazon.com/
+        icon: /logos/amazon.svg
+        authGroups:
+          - users
+      -
+        name: Github
+        link: https://github.com/mwalters/homed
+        icon: /logos/github.png
+        authGroups:
+          - admins
+      -
+        name: Reddit
+        link: https://www.reddit.com/
+        icon: /logos/reddit.png
+        authGroups:
+          - users
+  - Internal:
+    name: "Internal"
+    order: 3
+    links:
+      -
+        name: "Authelia"
+        link: https://msw.io/authelia
+        icon: /logos/authelia.png
+        authGroups:
+          - users
+      -
+        name: "Dozzle"
+        link: https://msw.io/dozzle/
+        icon: /logos/dozzle.png
+        authGroups:
+          - admins
