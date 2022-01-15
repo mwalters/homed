@@ -13,7 +13,7 @@
         <link href="css/fa-all.min.css" rel="stylesheet" />
         <link href="css/custom.css" rel="stylesheet" />
     </head>
-    <body>
+    <body class="light-mode">
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand navbar-dark bg-dark">
             <div class="container">
@@ -24,6 +24,12 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-user fas fa-user-secret"></i></a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <div class="control-darkmode-wrap form-check form-switch">
+                                        <input id="control-darkmode" class="control-darkmode form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        <label class="dark-mode-label form-check-label" for="flexSwitchCheckDefault">Dark Mode</label>
+                                    </div>
+                                </li>
                                 <li><a class="dropdown-item" href="{{ auth_ui_link }}">Log In &#47; Out</a></li>
                                 <li class="dropdown-divider"></li>
                                 <li class="dropdown-item">Current User:<br>{{ user['name'] }} ({{ user['username'] }})</li>
@@ -78,12 +84,10 @@
             {% endfor %}
           </div>
         </div>
-        <!-- Bootstrap core JS-->
         <script src="js/popper.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
         <script src="js/fa-all.min.js"></script>
+        <script src="js/scripts.js"></script>
     </body>
 </html>
 
