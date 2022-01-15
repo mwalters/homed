@@ -52,9 +52,6 @@ def send_custom_css(path):
 # Custom user JS
 @app.route("/custom/js/<path:path>")
 def send_custom_js(path):
-    app.logger.error('===================')
-    app.logger.error(path)
-    app.logger.error('===================')
     return send_from_directory("/config/app/assets/js/", path)
 
 

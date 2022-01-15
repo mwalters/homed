@@ -6,16 +6,11 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>{{ config['name'] }}</title>
-        <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link href="css/fa-all.min.css" rel="stylesheet" />
         <link href="css/homed.css" rel="stylesheet" />
         <link href="custom/css/custom.css" rel="stylesheet" />
     </head>
     <body class="{{ ui_mode }}">
-        <!-- Responsive navbar-->
         <nav class="navbar navbar-expand navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="#">{{ config['name'] }}</a>
@@ -41,7 +36,7 @@
                 {% endif %}
             </div>
         </nav>
-        <!-- Page content-->
+        <!-- Page content -->
         <div class="container">
           <div class="row align-items-start">
             {% for section in sections %}
@@ -87,6 +82,7 @@
             {% endfor %}
           </div>
         </div>
+        <!-- /Page content -->
         <script src="js/popper.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="js/fa-all.min.js"></script>
