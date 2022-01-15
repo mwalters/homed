@@ -7,6 +7,9 @@
 
 <img src="https://github.com/mwalters/homed/raw/main/screenshots/homed.png?raw=true" alt="homed" width="100%">
 
+Optional Weather section that can be configured:
+<img src="https://github.com/mwalters/homed/raw/main/screenshots/homed-weather-section.png?raw=true" alt="homed" width="100%">
+
 ## Features
 * Auth integration (e.g. [Authelia](https://www.authelia.com/))
 * Full access to HTML, CSS, JavaScript

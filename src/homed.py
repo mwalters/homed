@@ -1,26 +1,7 @@
 from flask import Flask, render_template, send_from_directory, request
 from logging.config import dictConfig
 from operator import itemgetter
-import os, sys, yaml, logging
-
-dictConfig(
-    {
-        "version": 1,
-        "formatters": {
-            "default": {
-                "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
-            }
-        },
-        "handlers": {
-            "wsgi": {
-                "class": "logging.StreamHandler",
-                "stream": "ext://flask.logging.wsgi_errors_stream",
-                "formatter": "default",
-            }
-        },
-        "root": {"level": "INFO", "handlers": ["wsgi"]},
-    }
-)
+import os, sys, yaml, logging, feedparser
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -34,8 +15,7 @@ def display_home():
         sorted(config["sections"], key=itemgetter("order")), request.headers
     )
 
-    if "auth_ui_link" not in config:
-        config["auth_ui_link"] = False
+    weather = get_weather(sections)
 
     app.logger.info("user={user}, path=/".format(user=user["username"]))
 
@@ -46,6 +26,7 @@ def display_home():
         auth_ui_link=config["auth_ui_link"],
         user=user,
         headers=request.headers,
+        weather=weather,
         sections=sections,
     )
 
@@ -94,6 +75,7 @@ def auth_links(sections, headers):
     if "Remote-Groups" in headers:
         groups = headers["Remote-Groups"].split(",")
         for section in sections:
+            if "type" in section: continue
             for idx, link in enumerate(section["links"]):
                 if "authGroups" not in link:
                     continue
@@ -123,3 +105,42 @@ def get_user(headers):
         user["groups"] = headers["Remote-Groups"].split(",")
 
     return user
+
+
+def get_weather(sections):
+    weather = {"radar": False, "alerts": []}
+    for section in sections:
+        if "type" in section and section["type"] == "weather":
+            weather_code = section["weather_code"]
+            weather_radar = section["weather_radar"]
+            app.logger.warning(weather_radar)
+
+            feed = feedparser.parse(
+                "https://alerts.weather.gov/cap/wwaatmget.php?x={weather_code}&y=0".format(
+                    weather_code=weather_code
+                )
+            )
+            alerts = []
+            for entry in feed.entries:
+                alerts.append(
+                    {
+                        "title": entry.title,
+                        "summary": entry.summary,
+                        "effective": entry.cap_effective,
+                        "link": entry.link,
+                    }
+                )
+                app.logger.info("=== Weather Alerts ===")
+                app.logger.info(alerts)
+
+            weather = {
+                "system_on": True,
+                "forecast": "https://www.weather.gov/{weather_radar}/".format(
+                      weather_radar=weather_radar
+                ),
+                "radar": "https://radar.weather.gov/ridge/lite/K{weather_radar}_loop.gif".format(
+                    weather_radar=weather_radar
+                ),
+                "alerts": alerts,
+            }
+    return weather

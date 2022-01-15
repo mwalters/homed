@@ -1,4 +1,4 @@
-VERSION=0.3.0
+VERSION=0.4.0
 
 fmt:
 	black src/homed.py
@@ -15,7 +15,7 @@ stop:
 	docker stop mwalters/homed
 
 push-prerelease:
-	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t mwalters/homed:$(VERSION) .
+	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t mwalters/homed:$(VERSION)-prerelease .
 
 push:
 	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t mwalters/homed:latest -t mwalters/homed:$(VERSION) .

@@ -3,6 +3,16 @@ open_links_in_new_window: true
 auth_ui_link: https://yourhost/authelia
 
 sections:
+  - Weather:
+    name: "Local Weather"
+    order: 4
+    type: weather
+    weather_code: VAC075 # Get this from https://alerts.weather.gov/ by finding your county and entering the code from the URL where x = <code>
+
+    # this one is a bit more difficult to explain, go to https://www.weather.gov/ and search for your zip code.
+    # Look for "Your local forecast office is" and click on the link.  On that page, look for the last section
+    # of the URL, for instance, with "https://www.weather.gov/akq/" the code is "AKQ"
+    weather_radar: AKQ
   - Media:
     name: "Media"
     order: 1

@@ -39,27 +39,48 @@
         <div class="container">
           <div class="row align-items-start">
             {% for section in sections %}
-            <div class="col-lg-4 link-section">
-              <div class="section-name">{{ section["name"] }}</div>
-              <ul class="list-group">
-                {% for link in section["links"] %}
-                <li class="list-group-item d-flex align-items-center">
-                  <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if open_links_in_new_window %} target="_blank"{% endif %}>{{ link["name"] }}</a>
-                  {% if link['icon'] %}
-                    {% if link['icon'][:3] in ['fab', 'far', 'fas', 'fal'] %}
-                        <i class="section-link-icon {{ link['icon'] }}"></i>
-                    {% else %}
-                        <img class="section-link-icon" src="{{ link['icon'] }}">
+                {% if "type" in section: %}
+                    {% if weather["system_on"] and section['type'] == "weather": %}
+                    <div class="col-lg-4 link-section">
+                        <div class="section-name">{{ section["name"] }}</div>
+                        {% if weather["alerts"] %}
+                            {% for alert in weather["alerts"]: %}
+                                <a href="{{ weather['forecast'] }}"{% if open_links_in_new_window %} target="_blank"{% endif %}><img src="{{ weather['radar'] }}" width="100%"></a>
+                                <div class="alert alert-warning alert-dismissable" role="alert">
+                                    <small>
+                                        <i class="fas fa-exclamation-triangle"></i> {{ alert['title'] }}<br>
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="popover" title="{{ alert['effective'] }}" data-bs-content="{{ alert['summary'] }}" data-bs-trigger="focus">Details</button>
+                                        <a href="{{ alert['link'] }}" type="button" class="btn btn-sm btn-info"{% if open_links_in_new_window %} target="_blank"{% endif %}>NWS</a>
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                     {% endif %}
-                  {% endif %}
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
+                {% else %}
+                    <div class="col-lg-4 link-section">
+                      <div class="section-name">{{ section["name"] }}</div>
+                      <ul class="list-group">
+                        {% for link in section["links"] %}
+                        <li class="list-group-item d-flex align-items-center">
+                          <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if open_links_in_new_window %} target="_blank"{% endif %}>{{ link["name"] }}</a>
+                          {% if link['icon'] %}
+                            {% if link['icon'][:3] in ['fab', 'far', 'fas', 'fal'] %}
+                                <i class="section-link-icon {{ link['icon'] }}"></i>
+                            {% else %}
+                                <img class="section-link-icon" src="{{ link['icon'] }}">
+                            {% endif %}
+                          {% endif %}
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                {% endif %}
             {% endfor %}
           </div>
         </div>
         <!-- Bootstrap core JS-->
+        <script src="js/popper.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
