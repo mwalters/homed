@@ -38,6 +38,26 @@ def send_css(path):
     return send_from_directory("assets/css", path)
 
 
+@app.route("/js/<path:path>")
+def send_js(path):
+    return send_from_directory("assets/js", path)
+
+
+# Custom user CSS
+@app.route("/custom/css/<path:path>")
+def send_custom_css(path):
+    return send_from_directory("/config/app/assets/css/", path)
+
+
+# Custom user JS
+@app.route("/custom/js/<path:path>")
+def send_custom_js(path):
+    app.logger.error('===================')
+    app.logger.error(path)
+    app.logger.error('===================')
+    return send_from_directory("/config/app/assets/js/", path)
+
+
 @app.route("/sprites/<path:path>")
 def send_sprites(path):
     return send_from_directory("assets/sprites", path)
@@ -51,11 +71,6 @@ def send_svgs(path):
 @app.route("/webfonts/<path:path>")
 def send_webfonts(path):
     return send_from_directory("assets/webfonts", path)
-
-
-@app.route("/js/<path:path>")
-def send_js(path):
-    return send_from_directory("assets/js", path)
 
 
 @app.route("/logos/<path:path>")
