@@ -15,7 +15,7 @@ If you do choose to customize the HTML, it could make upgrading in the future di
 
 ## Features
 * Auth integration (e.g. [Authelia](https://www.authelia.com/))
-* Full access to HTML, CSS, JavaScript
+* Ability to provide custom CSS and JavaScript
 * Simple `yaml` configuration file
 * FontAwesome icon support
 * Light/Dark mode
