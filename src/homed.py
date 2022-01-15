@@ -19,13 +19,13 @@ def display_home():
 
     app.logger.info("user={user}, path=/".format(user=user["username"]))
 
+    ui_mode = 'dark-mode' if config['dark_mode'] else 'light-mode'
+
     return render_template(
         "./home.html",
-        name=config["name"],
-        open_links_in_new_window=config["open_links_in_new_window"],
-        auth_ui_link=config["auth_ui_link"],
+        config=config,
+        ui_mode=ui_mode,
         user=user,
-        headers=request.headers,
         weather=weather,
         sections=sections,
     )

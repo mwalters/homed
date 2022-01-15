@@ -10,11 +10,15 @@
 Optional Weather section that can be configured:
 <img src="https://github.com/mwalters/homed/raw/main/screenshots/homed-weather-section.png?raw=true" alt="homed" width="100%">
 
+## A note on customization
+If you do choose to customize the HTML, it could make upgrading in the future difficult in terms of taking advantage of new features that may require updates to the HTML itself.  So weigh how important future features might be to you before choosing to customize the html.
+
 ## Features
 * Auth integration (e.g. [Authelia](https://www.authelia.com/))
 * Full access to HTML, CSS, JavaScript
 * Simple `yaml` configuration file
 * FontAwesome icon support
+* Light/Dark mode
 
 ## Documentation
 Please visit the [wiki](https://github.com/mwalters/homed/wiki)

@@ -9,7 +9,7 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl)
 })
 
-function monitorDarkMode() {
+function darkmodeTender() {
   chk = document.getElementById('control-darkmode');
   chk.addEventListener('click', function() {
     if (this.checked) {
@@ -34,5 +34,10 @@ function ready(fn) {
 }
 
 ready(function () {
-  monitorDarkMode();
+  darkmodeTender();
+
+  if (document.body.classList.contains('dark-mode')) {
+    console.log('Dark mode on')
+    document.getElementById('control-darkmode').setAttribute("checked", "true");
+  }
 });

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>{{ name }}</title>
+        <title>{{ config['name'] }}</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -13,12 +13,12 @@
         <link href="css/fa-all.min.css" rel="stylesheet" />
         <link href="css/custom.css" rel="stylesheet" />
     </head>
-    <body class="light-mode">
+    <body class="{{ ui_mode }}">
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="#">{{ name }}</a>
-                {% if user['username'] and auth_ui_link != False %}
+                <a class="navbar-brand" href="#">{{ config['name'] }}</a>
+                {% if user['username'] and config['auth_ui_link'] != False %}
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
@@ -30,7 +30,7 @@
                                         <label class="dark-mode-label form-check-label" for="flexSwitchCheckDefault">Dark Mode</label>
                                     </div>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ auth_ui_link }}">Log In &#47; Out</a></li>
+                                <li><a class="dropdown-item" href="{{ config['auth_ui_link'] }}">Log In &#47; Out</a></li>
                                 <li class="dropdown-divider"></li>
                                 <li class="dropdown-item">Current User:<br>{{ user['name'] }} ({{ user['username'] }})</li>
                             </ul>
@@ -50,12 +50,14 @@
                         <div class="section-name">{{ section["name"] }}</div>
                         {% if weather["alerts"] %}
                             {% for alert in weather["alerts"]: %}
-                                <a href="{{ weather['forecast'] }}"{% if open_links_in_new_window %} target="_blank"{% endif %}><img src="{{ weather['radar'] }}" width="100%"></a>
+                                <a href="{{ weather['forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img src="{{ weather['radar'] }}" width="100%"></a>
                                 <div class="alert alert-warning alert-dismissable" role="alert">
                                     <small>
-                                        <i class="fas fa-exclamation-triangle"></i> {{ alert['title'] }}<br>
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="popover" title="{{ alert['effective'] }}" data-bs-content="{{ alert['summary'] }}" data-bs-trigger="focus">Details</button>
-                                        <a href="{{ alert['link'] }}" type="button" class="btn btn-sm btn-info"{% if open_links_in_new_window %} target="_blank"{% endif %}>NWS</a>
+                                        <div class="weather-alert-title">
+                                            <i class="fas fa-exclamation-triangle"></i>{{ alert['title'] }}
+                                        </div>
+                                        <button id="weather-alert-details" type="button" class="btn btn-sm btn-warning" data-bs-toggle="popover" title="{{ alert['effective'] }}" data-bs-content="{{ alert['summary'] }}" data-bs-trigger="focus">Details</button>
+                                        <a href="{{ alert['link'] }}" type="button" class="btn btn-sm btn-info"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>NWS</a>
                                     </small>
                                 </div>
                             {% endfor %}
@@ -68,7 +70,7 @@
                       <ul class="list-group">
                         {% for link in section["links"] %}
                         <li class="list-group-item d-flex align-items-center">
-                          <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if open_links_in_new_window %} target="_blank"{% endif %}>{{ link["name"] }}</a>
+                          <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a>
                           {% if link['icon'] %}
                             {% if link['icon'][:3] in ['fab', 'far', 'fas', 'fal'] %}
                                 <i class="section-link-icon {{ link['icon'] }}"></i>
