@@ -72,7 +72,7 @@ def send_webfonts(path):
 
 @app.route("/logos/<path:path>")
 def send_logos(path):
-    return send_from_directory("assets/logos", path)
+    return send_from_directory("/config/app/assets/logos", path)
 
 
 @app.route("/assets/<path:path>")
