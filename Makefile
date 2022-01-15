@@ -8,7 +8,7 @@ build:
 	docker build --no-cache=true --rm -t mwalters/homed:$(VERSION) -t mwalters/homed:latest  .
 
 stop:
-	docker stop homed
+	docker stop homed; true
 
 run: stop build
 	docker run --rm -d --name homed -e ENV=development -p 5050:5000 -v /Users/mwalters/tmp/test:/config mwalters/homed:$(VERSION) && \

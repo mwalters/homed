@@ -81,7 +81,7 @@ def send_assets(path):
 
 
 def read_config():
-    parsed_yaml_file = yaml.load(open("homed.yaml"), Loader=yaml.FullLoader)
+    parsed_yaml_file = yaml.load(open("/config/app/homed.yaml"), Loader=yaml.FullLoader)
     return parsed_yaml_file
 
 
