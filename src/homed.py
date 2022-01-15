@@ -19,13 +19,15 @@ def display_home():
 
     app.logger.info("user={user}, path=/".format(user=user["username"]))
 
+    ui_mode = (
+        "dark-mode" if "dark_mode" in config and config["dark_mode"] else "light-mode"
+    )
+
     return render_template(
         "./home.html",
-        name=config["name"],
-        open_links_in_new_window=config["open_links_in_new_window"],
-        auth_ui_link=config["auth_ui_link"],
+        config=config,
+        ui_mode=ui_mode,
         user=user,
-        headers=request.headers,
         weather=weather,
         sections=sections,
     )
@@ -75,7 +77,8 @@ def auth_links(sections, headers):
     if "Remote-Groups" in headers:
         groups = headers["Remote-Groups"].split(",")
         for section in sections:
-            if "type" in section: continue
+            if "type" in section:
+                continue
             for idx, link in enumerate(section["links"]):
                 if "authGroups" not in link:
                     continue
@@ -136,7 +139,7 @@ def get_weather(sections):
             weather = {
                 "system_on": True,
                 "forecast": "https://www.weather.gov/{weather_radar}/".format(
-                      weather_radar=weather_radar
+                    weather_radar=weather_radar
                 ),
                 "radar": "https://radar.weather.gov/ridge/lite/K{weather_radar}_loop.gif".format(
                     weather_radar=weather_radar

@@ -1,4 +1,5 @@
 name: homed
+dark_mode: false
 open_links_in_new_window: true
 auth_ui_link: https://yourhost/authelia
 
