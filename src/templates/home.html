@@ -67,12 +67,14 @@
                         {% for link in section["links"] %}
                         <li class="list-group-item d-flex align-items-center">
                           <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a>
+                            <div class="section-link-icon-wrap">
                           {% if link['icon'] %}
                             {% if link['icon'][:3] in ['fab', 'far', 'fas', 'fal'] %}
                                 <i class="section-link-icon {{ link['icon'] }}"></i>
                             {% else %}
-                                <img class="section-link-icon" src="{{ link['icon'] }}">
+                                    <img class="section-link-icon" src="{{ link['icon'] }}">
                             {% endif %}
+                            </div>
                           {% endif %}
                         </li>
                         {% endfor %}

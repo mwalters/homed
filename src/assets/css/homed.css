@@ -24,11 +24,16 @@
   height: 60px;
 }
 
+.section-link-icon-wrap {
+    position: absolute;
+    right: 5px;
+    width: 50px;
+    text-align: center;
+}
+
 .section-link-icon {
-  max-width: 50px;
-  max-height: 50px;
-  position: absolute;
-  right: 5px;
+    max-width: 50px;
+    max-height: 50px;
 }
 
 svg.section-link-icon {
