@@ -6,6 +6,7 @@ import os, sys, yaml, logging, feedparser
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
 
+app.logger.info('==== Environment: ' + os.environ["FLASK_ENV"] )
 
 @app.route("/")
 def display_home():
@@ -81,7 +82,8 @@ def send_assets(path):
 
 
 def read_config():
-    parsed_yaml_file = yaml.load(open("/config/app/homed.yaml"), Loader=yaml.FullLoader)
+    config_file = "/config/app/homed.yaml" if os.environ["FLASK_ENV"] == "production" else "homed.yaml"
+    parsed_yaml_file = yaml.load(open(config_file), Loader=yaml.FullLoader)
     return parsed_yaml_file
 
 
