@@ -139,12 +139,14 @@ def get_weather(sections):
             )
             alerts = []
             for entry in feed.entries:
+                if "title" in entry and entry.title == "There are no active watches, warnings or advisories":
+                    break
                 alerts.append(
                     {
-                        "title": entry.title,
-                        "summary": entry.summary,
-                        "effective": entry.cap_effective,
-                        "link": entry.link,
+                        "title": entry.title if "title" in entry else "",
+                        "summary": entry.summary if "summary" in entry else "",
+                        "effective": entry.cap_effective if "cap_effective" in entry else "",
+                        "link": entry.link if "link" in entry else "",
                     }
                 )
                 app.logger.info("=== Weather Alerts ===")

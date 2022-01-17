@@ -44,9 +44,9 @@
                     {% if weather["system_on"] and section['type'] == "weather": %}
                     <div class="col-lg-4 link-section">
                         <div class="section-name">{{ section["name"] }}</div>
+                            <a href="{{ weather['forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img src="{{ weather['radar'] }}" width="100%"></a>
                         {% if weather["alerts"] %}
                             {% for alert in weather["alerts"]: %}
-                                <a href="{{ weather['forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img src="{{ weather['radar'] }}" width="100%"></a>
                                 <div class="alert alert-warning alert-dismissable" role="alert">
                                     <small>
                                         <div class="weather-alert-title">
