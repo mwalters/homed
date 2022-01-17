@@ -26,7 +26,7 @@
 
 .section-link-icon-wrap {
     position: absolute;
-    right: 5px;
+    right: 10px;
     width: 50px;
     text-align: center;
 }
@@ -117,5 +117,3 @@ body.dark-mode .popover-body {
 body.dark-mode .bs-popover-auto[data-popper-placement^=right]>.popover-arrow::after, body.dark-mode .bs-popover-end>.popover-arrow::after {
   border-right-color: #222;
 }
-
-
