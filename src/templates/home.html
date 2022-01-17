@@ -38,51 +38,18 @@
         </nav>
         <!-- Page content -->
         <div class="container">
-          <div class="row align-items-start">
-            {% for section in sections %}
-                {% if "type" in section: %}
-                    {% if weather["system_on"] and section['type'] == "weather": %}
-                    <div class="col-lg-4 link-section">
-                        <div class="section-name">{{ section["name"] }}</div>
-                            <a href="{{ weather['forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img src="{{ weather['radar'] }}" width="100%"></a>
-                        {% if weather["alerts"] %}
-                            {% for alert in weather["alerts"]: %}
-                                <div class="alert alert-warning alert-dismissable" role="alert">
-                                    <small>
-                                        <div class="weather-alert-title">
-                                            <i class="fas fa-exclamation-triangle"></i>{{ alert['title'] }}
-                                        </div>
-                                        <button id="weather-alert-details" type="button" class="btn btn-sm btn-warning" data-bs-toggle="popover" title="{{ alert['effective'] }}" data-bs-content="{{ alert['summary'] }}" data-bs-trigger="focus">Details</button>
-                                        <a href="{{ alert['link'] }}" type="button" class="btn btn-sm btn-info"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>NWS</a>
-                                    </small>
-                                </div>
-                            {% endfor %}
+            <div class="row align-items-start">
+                {% for section in sections %}
+                    {% set section_css_classes = section["css_classes"]|join(" ") %}
+                    {% if "type" in section: %}
+                        {% if section["type"] == "links" %}
+                            {% include "links.html" with context %}
+                        {% elif weather["system_on"] and section['type'] == "weather": %}
+                            {% include "weather.html" with context %}
                         {% endif %}
-                    </div>
                     {% endif %}
-                {% else %}
-                    <div class="col-lg-4 link-section">
-                      <div class="section-name">{{ section["name"] }}</div>
-                      <ul class="list-group">
-                        {% for link in section["links"] %}
-                        <li class="list-group-item d-flex align-items-center">
-                          <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a>
-                            <div class="section-link-icon-wrap">
-                          {% if link['icon'] %}
-                            {% if link['icon'][:3] in ['fab', 'far', 'fas', 'fal'] %}
-                                <i class="section-link-icon {{ link['icon'] }}"></i>
-                            {% else %}
-                                    <img class="section-link-icon" src="{{ link['icon'] }}">
-                            {% endif %}
-                            </div>
-                          {% endif %}
-                        </li>
-                        {% endfor %}
-                      </ul>
-                    </div>
-                {% endif %}
-            {% endfor %}
-          </div>
+                {% endfor %}
+            </div>
         </div>
         <!-- /Page content -->
         <script src="js/popper.min.js"></script>

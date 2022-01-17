@@ -1,0 +1,17 @@
+<div class="col-lg-4 link-section {{ section_css_classes }}">
+    <div class="section-name">{{ section["name"] }}</div>
+        <a href="{{ weather['forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img src="{{ weather['radar'] }}" width="100%"></a>
+    {% if weather["alerts"] %}
+        {% for alert in weather["alerts"]: %}
+            <div class="alert alert-warning alert-dismissable" role="alert">
+                <small>
+                    <div class="weather-alert-title">
+                        <i class="fas fa-exclamation-triangle"></i>{{ alert['title'] }}
+                    </div>
+                    <button id="weather-alert-details" type="button" class="btn btn-sm btn-warning" data-bs-toggle="popover" title="{{ alert['effective'] }}" data-bs-content="{{ alert['summary'] }}" data-bs-trigger="focus">Details</button>
+                    <a href="{{ alert['link'] }}" type="button" class="btn btn-sm btn-info"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>NWS</a>
+                </small>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

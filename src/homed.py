@@ -1,7 +1,7 @@
 from flask import Flask, render_template, send_from_directory, request
 from logging.config import dictConfig
 from operator import itemgetter
-import os, sys, yaml, logging, feedparser
+import os, sys, re, yaml, logging, feedparser
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -10,7 +10,7 @@ app.logger.info('==== Environment: ' + os.environ["FLASK_ENV"] )
 
 @app.route("/")
 def display_home():
-    config = read_config()
+    config = enrich_config()
     user = get_user(request.headers)
     sections = auth_links(
         sorted(config["sections"], key=itemgetter("order")), request.headers
@@ -81,10 +81,20 @@ def send_assets(path):
     return send_from_directory("assets", path)
 
 
-def read_config():
+def enrich_config():
     config_file = "/config/app/homed.yaml" if os.environ["FLASK_ENV"] == "production" else "homed.yaml"
-    parsed_yaml_file = yaml.load(open(config_file), Loader=yaml.FullLoader)
-    return parsed_yaml_file
+    config = yaml.load(open(config_file), Loader=yaml.FullLoader)
+
+    for section in config["sections"]:
+        if "name" in section:
+            if "css_classes" not in section:
+                section["css_classes"] = []
+            section["css_classes"].append("section-" + re.sub("[^0-9a-zA-Z]+", "-", section["name"].lower()))
+
+        if "type" not in section:
+            section["type"] = "links"
+
+    return config
 
 
 def auth_links(sections, headers):

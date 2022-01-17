@@ -1,0 +1,22 @@
+<div class="col-lg-4 link-section {{ section_css_classes }}">
+    <div class="section-name">
+        {{ section["name"] }}
+    </div>
+    <ul class="list-group">
+        {% for link in section["links"] %}
+        {% set link_css_classes = link["css_classes"]|join(" ") %}
+        <li class="list-group-item d-flex align-items-center {{ link_css_classes }}">
+            <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a>
+            <div class="section-link-icon-wrap">
+                {% if link['icon'] %}
+                    {% if link['icon'][:3] in ['fab', 'far', 'fas', 'fal'] %}
+                        <i class="section-link-icon {{ link['icon'] }}"></i>
+                    {% else %}
+                        <img class="section-link-icon" src="{{ link['icon'] }}">
+                    {% endif %}
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

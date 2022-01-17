@@ -1,64 +1,59 @@
-name: homed
-dark_mode: false
-open_links_in_new_window: true
-auth_ui_link: https://yourhost/authelia
+name: homed                     # Required - used in titlebar and header of page
+dark_mode: false                # Optional - true to turn on dark mode
+open_links_in_new_window: true  # Optional - whether you want links to open in a new window
+auth_ui_link: https://yourhost/authelia # Optional - link to your auth system UI
 
+# Sections is a list of sections to be displayed on the page
 sections:
-  - Weather:
-    name: "Local Weather"
-    order: 4
-    type: weather
-    weather_code: VAC075 # Get this from https://alerts.weather.gov/ by finding your county and entering the code from the URL where x = <code>
+  - name: "Local Weather" # Required - Display name for the section
+    order: 4              # Required - The order in which this section is to appear
+    type: weather         # Required only for "Weather" section
+    weather_code: VAC075  # Get this from https://alerts.weather.gov/ by finding your county and entering the code from the URL where x = <code>
 
-    # this one is a bit more difficult to explain, go to https://www.weather.gov/ and search for your zip code.
+    # This one is a bit more difficult to explain, go to https://www.weather.gov/ and search for your zip code.
     # Look for "Your local forecast office is" and click on the link.  On that page, look for the last section
     # of the URL, for instance, with "https://www.weather.gov/akq/" the code is "AKQ"
     weather_radar: AKQ
-  - Media:
-    name: "Media"
+  - name: "Media"
     order: 1
-    links:
-      -
-        name: Plex
-        link: https://msw.io/plex
-        icon: far fa-play-circle
-        authGroups:
+    css_classes: # Optional list - CSS classes to be added to the section wrapper
+      - local_media
+    links:                          # Optional ... but, why have a section if you aren't adding links? :)
+      - name: Plex                  # Required - Text to display for the link
+        link: https://yourhost/plex # Required - URL to take the user to when clicked
+        icon: far fa-play-circle    # Required - Image URL or FontAwesome CSS classes
+        css_classes:                # Optional list - CSS classes to be added to the link wrapper
+          - personal_media
+        authGroups:                 # Optional list of user groups that this link shall be visible to
           - users
-  - Quick Links:
-    name: "Quick Links"
+  - name: "Quick Links"
     order: 2
     links:
-      -
-        name: Amazon
+      - name: Amazon
         link: https://smile.amazon.com/
         icon: fab fa-amazon
         authGroups:
           - users
-      -
-        name: Github
+      - name: Github
         link: https://github.com/mwalters/homed
         icon: fab fa-github
         authGroups:
           - admins
-      -
-        name: Reddit
+      - name: Reddit
         link: https://www.reddit.com/
         icon: /logos/reddit.png
         authGroups:
           - users
-  - Internal:
-    name: "Internal"
+  - name: "Internal"
     order: 3
     links:
-      -
-        name: "Authelia"
-        link: https://msw.io/authelia
+      - name: "Authelia"
+        link: https://yourhost/authelia
         icon: fas fa-user-ninja
         authGroups:
           - users
-      -
-        name: "Dozzle"
-        link: https://msw.io/dozzle/
+      - name: "Dozzle"
+        link: https://yourhost/dozzle/
         icon: fas fa-list-ul
         authGroups:
           - admins
