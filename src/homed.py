@@ -88,7 +88,8 @@ def enrich_config():
     config_file = "/config/app/homed.yaml" if os.environ["FLASK_ENV"] == "production" else "homed.yaml"
     config = yaml.load(open(config_file), Loader=yaml.FullLoader)
 
-    if "motd" not in config: config["motd"] = {}
+    if "motd" not in config:
+        config["motd"] = { "enabled": False }
     if "enabled" not in config["motd"]:
         config["motd"]["enabled"] = True
 

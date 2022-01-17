@@ -127,3 +127,7 @@ body.dark-mode .popover-body {
 body.dark-mode .bs-popover-auto[data-popper-placement^=right]>.popover-arrow::after, body.dark-mode .bs-popover-end>.popover-arrow::after {
   border-right-color: #222;
 }
+
+body.dark-mode .section-link-subtext {
+    color: #ccc;
+}
