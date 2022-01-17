@@ -3,6 +3,16 @@ dark_mode: false                # Optional - true to turn on dark mode
 open_links_in_new_window: true  # Optional - whether you want links to open in a new window
 auth_ui_link: https://yourhost/authelia # Optional - link to your auth system UI
 
+motd:                           # Optional section
+  enabled: false                # Optional - If not present, true is assumed. Can be used to disable MOTD without deleting config.
+  type: info                    # Required if `motd` section is present, options: info, warning, danger
+  # Optional, title for the MOTD
+  title: This is a sample Message of the Day
+  message: # Required if `motd` section is present, message to display
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean neque velit, venenatis eu lectus nec,
+    consequat fermentum nulla. Nam mollis, dolor in lobortis pellentesque, risus quam scelerisque mauris,
+    rutrum congue sem sem eget risus.
+
 # Sections is a list of sections to be displayed on the page
 sections:
   - name: "Local Weather" # Required - Display name for the section
@@ -20,8 +30,10 @@ sections:
       - local_media
     links:                          # Optional ... but, why have a section if you aren't adding links? :)
       - name: Plex                  # Required - Text to display for the link
+        subtext: "View local media" # Optional - Text that displays under link
         link: https://yourhost/plex # Required - URL to take the user to when clicked
         icon: far fa-play-circle    # Required - Image URL or FontAwesome CSS classes
+        context: primary            # Optional - Colorizes item, options: primary, secondary, success, danger, warning, info, light, dark
         css_classes:                # Optional list - CSS classes to be added to the link wrapper
           - personal_media
         authGroups:                 # Optional list of user groups that this link shall be visible to
@@ -30,6 +42,7 @@ sections:
     order: 2
     links:
       - name: Amazon
+        subtext: "Shop on Amazon"
         link: https://smile.amazon.com/
         icon: fab fa-amazon
         authGroups:

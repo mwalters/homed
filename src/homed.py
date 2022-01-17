@@ -3,7 +3,7 @@ from logging.config import dictConfig
 from operator import itemgetter
 import os, sys, re, yaml, logging, feedparser
 
-version = "1.1.0"
+version = "1.2.0-prerelease"
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -88,6 +88,10 @@ def enrich_config():
     config_file = "/config/app/homed.yaml" if os.environ["FLASK_ENV"] == "production" else "homed.yaml"
     config = yaml.load(open(config_file), Loader=yaml.FullLoader)
 
+    if "motd" not in config: config["motd"] = {}
+    if "enabled" not in config["motd"]:
+        config["motd"]["enabled"] = True
+
     for section in config["sections"]:
         if "name" in section:
             if "css_classes" not in section:
@@ -96,6 +100,17 @@ def enrich_config():
 
         if "type" not in section:
             section["type"] = "links"
+
+        if section["type"] == "links":
+            for link in section["links"]:
+                if "context" not in link:
+                    link["context"] = ""
+
+                if "css_classes" not in link:
+                    link["css_classes"] = []
+
+                if link["context"] != "":
+                    link["css_classes"].append("list-group-item-" + link["context"])
 
     return config
 

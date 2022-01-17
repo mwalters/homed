@@ -38,6 +38,14 @@
         </nav>
         <!-- Page content -->
         <div class="container">
+            {% if config["motd"]["enabled"] %}
+                <div class="alert alert-{{ config['motd']['type'] }} homed-motd" role="alert">
+                    {% if "title" in config["motd"] %}
+                        <h5>{{ config["motd"]["title"] }}</h5>
+                    {% endif %}
+                    {{ config["motd"]["message"] }}
+                </div>
+            {% endif %}
             <div class="row align-items-start">
                 {% for section in sections %}
                     {% set section_css_classes = section["css_classes"]|join(" ") %}

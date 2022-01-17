@@ -5,8 +5,7 @@
     <ul class="list-group">
         {% for link in section["links"] %}
         {% set link_css_classes = link["css_classes"]|join(" ") %}
-        <li class="list-group-item d-flex align-items-center {{ link_css_classes }}">
-            <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a>
+        <li class="list-group-item {% if 'subtext' not in link %}d-flex{% else %}has-subtext{% endif %} align-items-center {{ link_css_classes }}">
             <div class="section-link-icon-wrap">
                 {% if link['icon'] %}
                     {% if link['icon'][:3] in ['fab', 'far', 'fas', 'fal'] %}
@@ -16,6 +15,16 @@
                     {% endif %}
                 {% endif %}
             </div>
+            {% if "subtext" in link %}
+            <div class="fw-bold">
+                <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a>
+            </div>
+            <div class="section-link-subtext">
+                {{ link["subtext"] }}
+            </div>
+            {% else %}
+                <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a>
+            {% endif %}
         </li>
         {% endfor %}
     </ul>
