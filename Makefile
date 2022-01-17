@@ -1,4 +1,6 @@
-VERSION=1.1.0
+VERSION:=$(shell ./getVersion.sh)
+
+.PHONY: version
 
 fmt:
 	black src/homed.py
@@ -15,7 +17,10 @@ run: stop build
 	docker logs -f homed
 
 push-prerelease:
-	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t mwalters/homed:$(VERSION)-prerelease .
+	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t mwalters/homed:$(VERSION) .
 
 push:
 	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t mwalters/homed:latest -t mwalters/homed:$(VERSION) .
+
+version:
+	@echo Version: $(VERSION)

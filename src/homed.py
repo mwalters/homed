@@ -3,6 +3,8 @@ from logging.config import dictConfig
 from operator import itemgetter
 import os, sys, re, yaml, logging, feedparser
 
+version = "1.1.0-prerelease"
+
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
 
@@ -31,6 +33,7 @@ def display_home():
         user=user,
         weather=weather,
         sections=sections,
+        version=version
     )
 
 

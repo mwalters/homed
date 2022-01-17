@@ -18,7 +18,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-user fas fa-user-secret"></i></a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user['name'] }} ({{ user['username'] }}) <i class="icon-user fas fa-user-secret"></i></a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li>
                                     <div class="control-darkmode-wrap form-check form-switch">
@@ -28,7 +28,7 @@
                                 </li>
                                 <li><a class="dropdown-item" href="{{ config['auth_ui_link'] }}">Log In &#47; Out</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li class="dropdown-item">Current User:<br>{{ user['name'] }} ({{ user['username'] }})</li>
+                                <li class="dropdown-item">homed v{{ version }}</li>
                             </ul>
                         </li>
                     </ul>
