@@ -15,19 +15,8 @@ motd:                           # Optional section
 
 # Sections is a list of sections to be displayed on the page
 sections:
-  - name: "Local Weather" # Required - Display name for the section
-    order: 4              # Required - The order in which this section is to appear
-    type: weather         # Required only for "Weather" section
-    weather_code: VAC075  # Get this from https://alerts.weather.gov/ by finding your county and entering the code from the URL where x = <code>
-
-    # This one is a bit more difficult to explain, go to https://www.weather.gov/ and search for your zip code.
-    # Look for "Your local forecast office is" and click on the link.  On that page, look for the last section
-    # of the URL, for instance, with "https://www.weather.gov/akq/" the code is "AKQ"
-    weather_radar: AKQ
-  - name: "Media"
+  - name: "Internal"
     order: 1
-    css_classes: # Optional list - CSS classes to be added to the section wrapper
-      - local_media
     links:                          # Optional ... but, why have a section if you aren't adding links? :)
       - name: Plex                  # Required - Text to display for the link
         subtext: "View local media" # Optional - Text that displays under link
@@ -38,6 +27,18 @@ sections:
           - personal_media
         authGroups:                 # Optional list of user groups that this link shall be visible to
           - users
+      - name: "Authelia"
+        subtext: Auth services
+        link: https://yourhost/authelia
+        icon: fas fa-user-ninja
+        authGroups:
+          - users
+      - name: "Dozzle"
+        subtext: Docker logs
+        link: https://yourhost/dozzle/
+        icon: fas fa-list-ul
+        authGroups:
+          - admins
   - name: "Quick Links"
     order: 2
     links:
@@ -48,25 +49,25 @@ sections:
         authGroups:
           - users
       - name: Github
+        subtext: Code Repositories
         link: https://github.com/mwalters/homed
         icon: fab fa-github
         authGroups:
           - admins
       - name: Reddit
+        subtext: Waste time
         link: https://www.reddit.com/
-        icon: /logos/reddit.png
+        icon: fab fa-reddit
         authGroups:
           - users
-  - name: "Internal"
-    order: 3
-    links:
-      - name: "Authelia"
-        link: https://yourhost/authelia
-        icon: fas fa-user-ninja
-        authGroups:
-          - users
-      - name: "Dozzle"
-        link: https://yourhost/dozzle/
-        icon: fas fa-list-ul
-        authGroups:
-          - admins
+  - name: "Local Weather" # Required - Display name for the section
+    order: 3              # Required - The order in which this section is to appear
+    type: weather         # Required only for "Weather" section
+    zipcode: 12345        # ZIP code
+    # Sign up for a free account at https://openweathermap.org/ then log in and go
+    # to "API keys" and copy the value of the "Key" to here
+    openweather_api_key:
+    # This one is a bit more difficult to explain, go to https://www.weather.gov/ and search for your zip code.
+    # Look for "Your local forecast office is" and click on the link.  On that page, look for the last section
+    # of the URL, for instance, with "https://www.weather.gov/akq/" the code is "AKQ"
+    weather_radar: AKQ

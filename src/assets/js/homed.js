@@ -15,15 +15,37 @@ function darkmodeTender() {
     if (this.checked) {
       document.body.classList.remove("light-mode");
       document.body.classList.add("dark-mode");
-      console.log('Dark mode toggled on')
+      console.log('Dark mode toggled on');
     } else {
       document.body.classList.remove("dark-mode");
       document.body.classList.add("light-mode");
-      console.log('Dark mode toggled off')
+      console.log('Dark mode toggled off');
     }
   });
 }
 
+function refresh_radar() {
+  currentRadar = document.getElementById('currentRadar');
+  radarId = document.getElementById('radarId');
+  radar_code = currentRadar.dataset.radar;
+  radar_static = 'https://radar.weather.gov/ridge/lite/K' + radar_code + '_9.gif';
+  radar_loop = 'https://radar.weather.gov/ridge/lite/K' + radar_code + '_loop.gif?' + new Date().getTime();
+
+  if (currentRadar.dataset.state == "loop") {
+    console.log('Changing radar to static');
+    currentRadar.src = radar_static;
+    currentRadar.dataset.state = "static"
+    radarId.innerHTML = radar_code + " Radar (loop is loading)"
+    console.log('Waiting 5 seconds before loading loop again')
+    setTimeout(function() { refresh_radar(); }, 5000);
+  } else {
+    console.log('Changing radar to loop');
+    currentRadar.dataset.state = "loop"
+    currentRadar.src = radar_loop;
+    radarId.innerHTML = radar_code + " Radar Loop"
+  }
+
+}
 
 function ready(fn) {
   if (document.readyState !== 'loading'){
@@ -35,9 +57,13 @@ function ready(fn) {
 
 ready(function () {
   darkmodeTender();
+  setTimeout(function() {
+    refresh_radar();
+  }, 900000); // Refresh radar every 15 minutes 900000
+  console.log('Created radar refresh trigger');
 
   if (document.body.classList.contains('dark-mode')) {
-    console.log('Dark mode on')
+    console.log('Dark mode on');
     document.getElementById('control-darkmode').setAttribute("checked", "true");
   }
 });

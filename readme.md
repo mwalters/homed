@@ -5,10 +5,17 @@
 
 `homed` is a light-weight customizable portal primarily intended for the "self-hosted" crowd with built-in support for local authentication services (e.g. [Authelia](https://www.authelia.com/)).  The user configures options and which links to display using a `yaml` file, and also has ability to include custom CSS and JavaScript.  All resources are hosted locally.  Access to links is controlled via groups passed in by the authentication service using the `Remote-Groups` request header (which Authelia supports).
 
-<img src="https://github.com/mwalters/homed/raw/main/screenshots/homed.png?raw=true" alt="homed" width="100%">
+Light Mode:
+<img src="https://github.com/mwalters/homed/raw/main/screenshots/homed-light.png?raw=true" alt="homed" width="100%">
 
-Optional Weather section that can be configured:<br>
-<img src="https://github.com/mwalters/homed/raw/main/screenshots/homed-weather-section.png?raw=true" alt="homed" width="25%">
+Dark Mode:
+<img src="https://github.com/mwalters/homed/raw/main/screenshots/homed-dark.png?raw=true" alt="homed" width="100%">
+
+Weather:
+* Displays current local radar and refreshes every 15 minutes
+* 12-hour forecast
+* 5-day forecast
+<img src="https://github.com/mwalters/homed/raw/main/screenshots/homed-weather.png?raw=true" alt="homed" width="100%">
 
 ## Features
 * Auth integration (e.g. [Authelia](https://www.authelia.com/))
