@@ -66,7 +66,7 @@ sections:
     zipcode: 12345        # ZIP code
     # Sign up for a free account at https://openweathermap.org/ then log in and go
     # to "API keys" and copy the value of the "Key" to here
-    openweather_api_key:
+    openweather_api_key: abc123
     # This one is a bit more difficult to explain, go to https://www.weather.gov/ and search for your zip code.
     # Look for "Your local forecast office is" and click on the link.  On that page, look for the last section
     # of the URL, for instance, with "https://www.weather.gov/akq/" the code is "AKQ"

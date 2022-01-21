@@ -3,7 +3,7 @@ from logging.config import dictConfig
 from operator import itemgetter
 import os, sys, re, yaml, logging, feedparser, requests, datetime
 
-version = "1.2.0"
+version = "1.2.1"
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -230,7 +230,7 @@ def get_weather(sections):
                     day["sunset"] = datetime.datetime.fromtimestamp(day["sunset"])
                     day["sunset_human"] = day["sunset"].strftime("%I:%M %p")
 
-                del forecast["daily"][:3]
+                del forecast["daily"][5:]
 
                 alerts = []
                 if "alerts" in forecast:
