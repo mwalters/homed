@@ -23,6 +23,7 @@ Weather:
 * Simple `yaml` configuration file
 * FontAwesome icon support
 * Light/Dark mode
+* Status check for services
 
 ## Documentation
 Please visit the [wiki](https://github.com/mwalters/homed/wiki)

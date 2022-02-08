@@ -9,6 +9,8 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl)
 })
 
+var [servicesTotal, servicesHealthy, servicesUnhealthy] = [0,0,0];
+
 function darkmodeTender() {
   chk = document.getElementById('control-darkmode');
   chk.addEventListener('click', function() {
@@ -40,11 +42,51 @@ function refresh_radar() {
     setTimeout(function() { refresh_radar(); }, 5000);
   } else {
     console.log('Changing radar to loop');
-    currentRadar.dataset.state = "loop"
+    currentRadar.dataset.state = "loop";
     currentRadar.src = radar_loop;
-    radarId.innerHTML = radar_code + " Radar Loop"
+    radarId.innerHTML = radar_code + " Radar Loop";
   }
 
+  setRadarTimer();
+}
+
+function refresh_status_checks() {
+  console.log("Refreshing status checks");
+  servicesTotal = 0;
+  servicesHealthy = 0;
+  servicesUnhealthy = 0;
+  status_checks = document.querySelectorAll('[data-statuscheck="True"]').forEach(status_check => {
+    status_check.classList.add("service-health")
+    if ('statusservice' in status_check.dataset && status_check.dataset.statuscheck === 'True') {
+      var url = '/serviceStatus/' + status_check.dataset.statusservice;
+
+      console.log('Status check for:', status_check.dataset.statusservice, url);
+
+      fetch(url, { method: 'GET' })
+        .then(Result => Result.json())
+        .then(status_check => {
+          var statusEl = document.getElementById('footer-text');
+          console.log(statusEl)
+          console.log('Status check result:', status_check);
+          el = document.querySelectorAll('[data-statusservice="' + status_check.service + '"]').forEach(service_el => {
+            servicesTotal++;
+            if (status_check.status_code == 200) {
+              servicesHealthy++;
+              service_el.classList.add("service-healthy")
+            } else {
+              servicesUnhealthy++;
+              service_el.classList.add("service-unhealthy")
+            }
+          })
+
+          const date = new Date();
+          const datetime = date.getFullYear() + '-' + String(date.getMonth()).padStart(2, "0") + '-' + String(date.getDate()).padStart(2, "0") + ' ' + date.getHours() + ':' + date.getMinutes(); // "20211124"
+          statusEl.innerHTML = servicesTotal + ' services (' + servicesHealthy + ' Up, ' + servicesUnhealthy + ' down) - Updated: ' + datetime;
+        })
+    }
+  })
+
+  setServiceStatusTimer();
 }
 
 function ready(fn) {
@@ -55,15 +97,28 @@ function ready(fn) {
   }
 }
 
-ready(function () {
-  darkmodeTender();
+function setRadarTimer() {
   setTimeout(function() {
     refresh_radar();
-  }, 900000); // Refresh radar every 15 minutes 900000
+  }, 5 * 60 * 1000); // Refresh radar every 5 minutes
   console.log('Created radar refresh trigger');
+}
+
+function setServiceStatusTimer() {
+  setTimeout(function() {
+    refresh_status_checks();
+  }, 5 * 60 * 1000); // Refresh status checks every 5 minutes
+  console.log('Created status check refresh trigger');
+}
+
+ready(function () {
+  darkmodeTender();
 
   if (document.body.classList.contains('dark-mode')) {
     console.log('Dark mode on');
     document.getElementById('control-darkmode').setAttribute("checked", "true");
   }
+
+  setRadarTimer();
+  refresh_status_checks();
 });

@@ -5,7 +5,7 @@
     <ul class="list-group">
         {% for link in section["links"] %}
         {% set link_css_classes = link["css_classes"]|join(" ") %}
-        <li class="list-group-item {% if 'subtext' not in link %}d-flex{% else %}has-subtext{% endif %} align-items-center {{ link_css_classes }}">
+        <li class="list-group-item {% if 'subtext' not in link %}d-flex{% else %}has-subtext{% endif %} align-items-center {{ link_css_classes }}" data-statuscheck="{{ link['status_check'] }}" data-statusservice={{ link['name_url_safe']}}>
             <div class="section-link-icon-wrap">
                 {% if link['icon'] %}
                     {% if link['icon'][:3] in ['fab', 'far', 'fas', 'fal'] %}
@@ -25,6 +25,7 @@
             {% else %}
                 <a class="align-items-center justify-content-center section-link stretched-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a>
             {% endif %}
+            <div class="service-status-indicator"></div>
         </li>
         {% endfor %}
     </ul>

@@ -1,6 +1,7 @@
-from flask import Flask, render_template, send_from_directory, request
+from flask import Flask, render_template, send_from_directory, request, json
 from logging.config import dictConfig
 from operator import itemgetter
+import urllib.parse
 import os, sys, re, yaml, logging, feedparser, requests, datetime
 
 version = "1.3.0-prerelease"
@@ -85,6 +86,41 @@ def send_assets(path):
     return send_from_directory("assets", path)
 
 
+@app.route("/serviceStatus/<string:service>")
+def service_status(service):
+    config = enrich_config()
+
+    app.logger.info(
+        "Received status check request for {service}".format(service=service)
+    )
+
+    status_code = 0
+    for section in config["sections"]:
+        if section["type"] == "links":
+            for link in section["links"]:
+                if link["status_check"] and link["name"].lower() == service:
+                    app.logger.info("Requesting: {link}".format(link=link["link"]))
+                    r = requests.get(link["link"])
+                    status_code = r.status_code
+                    app.logger.info(
+                        "Recevied status code: {status_code}".format(
+                            status_code=status_code
+                        )
+                    )
+                    break
+            if status_code != 0:
+                break
+
+    return str(
+        json.dumps(
+            {
+                "service": urllib.parse.quote(service, safe="").lower(),
+                "status_code": status_code,
+            }
+        )
+    )
+
+
 def enrich_config():
     config_file = (
         "/config/app/homed.yaml"
@@ -111,11 +147,18 @@ def enrich_config():
 
         if section["type"] == "links":
             for link in section["links"]:
+                link["name_url_safe"] = urllib.parse.quote(
+                    link["name"], safe=""
+                ).lower()
+
                 if "context" not in link:
                     link["context"] = ""
 
                 if "css_classes" not in link:
                     link["css_classes"] = []
+
+                if "status_check" not in link:
+                    link["status_check"] = False
 
                 if link["context"] != "":
                     link["css_classes"].append("list-group-item-" + link["context"])
