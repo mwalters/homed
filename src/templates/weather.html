@@ -28,9 +28,9 @@
                     <li class="list-group-item forecast-hourly">
                         <span class="badge bg-primary">{{ hour['dt_human'] }}</span>
                         <div class="hour-forecast">
-                            Temp: {{ hour['temp'] }} (Feels: {{ hour['feels_like']|round|int }})<br>
-                            Conditions: {{ hour['weather'][0]['description'] }}<br>
-                            Wind: {{ hour['wind_speed']|round|int }}mph / {{ hour['wind_deg_human'] }}
+                            <i class="fas fa-thermometer-half"></i> {{ hour['temp']|round|int }}&#176; (Feels: {{ hour['feels_like']|round|int }}&#176;)<br>
+                            <i class="fas fa-wind"></i> {{ hour['wind_speed']|round|int }}mph &nbsp; <i class="far fa-compass"></i> {{ hour['wind_deg_human'] }}<br>
+                            {{ hour['weather'][0]['description'] }}
                         </div>
                     </li>
                 {% endfor %}
@@ -42,9 +42,9 @@
                     <li class="list-group-item forecast-daily">
                         <span class="badge bg-primary">{{ day['dt_human'] }}</span>
                         <div class="day-forecast">
-                            High: {{ day['temp']['max']|round|int }} -> Low {{ day['temp']['min']|round|int }}<br>
-                            Conditions: {{ day['weather'][0]['description'] }}<br>
-                            Wind: {{ day['wind_speed']|round|int }} / {{ day['wind_deg_human'] }}
+                             <i class="fas fa-thermometer-quarter"></i> {{ day['temp']['min']|round|int }}&#176; <i class="fas fa-long-arrow-alt-right"></i> <i class="fas fa-thermometer-three-quarters"></i> {{ day['temp']['max']|round|int }}&#176;<br>
+                            <i class="fas fa-wind"></i> {{ day['wind_speed']|round|int }} &nbsp; <i class="far fa-compass"></i> {{ day['wind_deg_human'] }}<br>
+                            {{ day['weather'][0]['description'] }}
                         </div>
                     </li>
                 {% endfor %}

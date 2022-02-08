@@ -3,7 +3,7 @@ from logging.config import dictConfig
 from operator import itemgetter
 import os, sys, re, yaml, logging, feedparser, requests, datetime
 
-version = "1.2.1"
+version = "1.3.0-prerelease"
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -180,10 +180,12 @@ def get_weather(sections):
                 )
                 current_conditions["sys"][
                     "sunrise_human"
-                ] = datetime.datetime.fromtimestamp(current_conditions["sys"]["sunrise"])
-                current_conditions["sys"]["sunset_human"] = datetime.datetime.fromtimestamp(
-                    current_conditions["sys"]["sunset"]
+                ] = datetime.datetime.fromtimestamp(
+                    current_conditions["sys"]["sunrise"]
                 )
+                current_conditions["sys"][
+                    "sunset_human"
+                ] = datetime.datetime.fromtimestamp(current_conditions["sys"]["sunset"])
                 current_conditions["sys"]["sunrise_human"] = current_conditions["sys"][
                     "sunrise_human"
                 ].strftime("%I:%M %p")
@@ -274,9 +276,7 @@ def get_weather(sections):
                     "alerts": alerts,
                 }
             else:
-                weather = {
-                    "system_on": False
-                }
+                weather = {"system_on": False}
     return weather
 
 
