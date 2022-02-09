@@ -10,6 +10,8 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 })
 
 var [servicesTotal, servicesHealthy, servicesUnhealthy] = [0,0,0];
+var radarTimer = 5 * 60 * 1000; // 5 Minutes
+var serviceTimer = 5 * 60 * 1000; // 5 Minutes
 
 function darkmodeTender() {
   chk = document.getElementById('control-darkmode');
@@ -39,7 +41,6 @@ function refresh_radar() {
     currentRadar.dataset.state = "static"
     radarId.innerHTML = radar_code + " Radar (loop is loading)"
     console.log('Waiting 5 seconds before loading loop again')
-    setTimeout(function() { refresh_radar(); }, 5000);
   } else {
     console.log('Changing radar to loop');
     currentRadar.dataset.state = "loop";
@@ -66,7 +67,6 @@ function refresh_status_checks() {
         .then(Result => Result.json())
         .then(status_check => {
           var statusEl = document.getElementById('footer-text');
-          console.log(statusEl)
           console.log('Status check result:', status_check);
           el = document.querySelectorAll('[data-statusservice="' + status_check.service + '"]').forEach(service_el => {
             servicesTotal++;
@@ -100,14 +100,14 @@ function ready(fn) {
 function setRadarTimer() {
   setTimeout(function() {
     refresh_radar();
-  }, 5 * 60 * 1000); // Refresh radar every 5 minutes
+  }, radarTimer); // Refresh radar every 5 minutes
   console.log('Created radar refresh trigger');
 }
 
 function setServiceStatusTimer() {
   setTimeout(function() {
     refresh_status_checks();
-  }, 5 * 60 * 1000); // Refresh status checks every 5 minutes
+  }, serviceTimer); // Refresh status checks every 5 minutes
   console.log('Created status check refresh trigger');
 }
 
