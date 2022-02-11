@@ -52,13 +52,23 @@ def send_js(path):
 # Custom user CSS
 @app.route("/custom/css/<path:path>")
 def send_custom_css(path):
-    return send_from_directory("/config/app/assets/css/", path)
+    assets_path = (
+        "/config/app/assets/css"
+        if os.environ["FLASK_ENV"] == "production"
+        else "assets/css"
+    )
+    return send_from_directory(assets_path, path)
 
 
 # Custom user JS
 @app.route("/custom/js/<path:path>")
 def send_custom_js(path):
-    return send_from_directory("/config/app/assets/js/", path)
+    assets_path = (
+        "/config/app/assets/js"
+        if os.environ["FLASK_ENV"] == "production"
+        else "assets/js"
+    )
+    return send_from_directory(assets_path, path)
 
 
 @app.route("/sprites/<path:path>")
@@ -128,6 +138,19 @@ def enrich_config():
         else "homed.yaml"
     )
     config = yaml.load(open(config_file), Loader=yaml.FullLoader)
+
+    if os.environ["FLASK_ENV"] == "production":
+        config["custom_css"] = (
+            True if os.path.exists("/config/app/assets/css/custom.css") else False
+        )
+        config["custom_js"] = (
+            True if os.path.exists("/config/app/assets/js/custom.js") else False
+        )
+    else:
+        config["custom_css"] = (
+            True if os.path.exists("assets/css/custom.css") else False
+        )
+        config["custom_js"] = True if os.path.exists("assets/js/custom.js") else False
 
     if "motd" not in config:
         config["motd"] = {"enabled": False}
