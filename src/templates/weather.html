@@ -11,13 +11,13 @@
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-current" role="tabpanel" aria-labelledby="nav-current-tab">
             <div class="d-flex justify-content-center weather-current">
-                Temp: {{ weather['current_conditions']['main']['temp']|round|int }} (Feels like: {{ weather['current_conditions']['main']['feels_like']|round|int }})<br>
+                Temp: <span id="current_temp">{{ weather['current_conditions']['main']['temp']|round|int }}</span> (Feels like: <span id="current_feelslike">{{ weather['current_conditions']['main']['feels_like']|round|int }}</span>)<br>
             </div>
             <div class="d-flex justify-content-center weather-current">
                 Sunrise: {{ weather['current_conditions']['sys']['sunrise_human'] }} &#47; Sunset: {{ weather['current_conditions']['sys']['sunset_human'] }}
             </div>
 
-            <a href="{{ weather['nws_forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img id="currentRadar" src="{{ weather['radar'] }}" data-radar="{{ weather['weather_radar'] }}" data-state="loop" width="100%"></a>
+            <a href="{{ weather['nws_forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img id="currentRadar" src="{{ weather['radar'] }}" data-radar="{{ weather['weather_radar'] }}" width="100%"></a>
             <div class="d-flex justify-content-center weather-current">
                 <span id="radarId">{{ weather['weather_radar']}} Radar Loop</span>
             </div>

@@ -131,6 +131,15 @@ def service_status(service):
     )
 
 
+@app.route("/homedweather")
+def homed_weather():
+    config = enrich_config()
+    sections = auth_links(
+        sorted(config["sections"], key=itemgetter("order")), request.headers
+    )
+    return json.dumps(get_weather(sections))
+
+
 def enrich_config():
     config_file = (
         "/config/app/homed.yaml"
