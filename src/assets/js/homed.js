@@ -71,9 +71,7 @@ function refresh_status_checks() {
             }
           })
 
-          const date = new Date();
-          const datetime = date.getFullYear() + '-' + String(date.getMonth()).padStart(2, "0") + '-' + String(date.getDate()).padStart(2, "0") + ' ' + date.getHours() + ':' + date.getMinutes(); // "20211124"
-          statusEl.innerHTML = servicesTotal + ' services (' + servicesHealthy + ' Up, ' + servicesUnhealthy + ' down) - Updated: ' + datetime;
+          statusEl.innerHTML = servicesTotal + ' services (' + servicesHealthy + ' Up, ' + servicesUnhealthy + ' down) - Updated: ' + hdate();
         })
     }
   })
@@ -82,7 +80,7 @@ function refresh_status_checks() {
 }
 
 function hdate() {
-  return new Date().toLocaleDateString('en-US', {
+  return new Date().toLocaleDateString(navigator.languages[0], {
     day: 'numeric',
     month: 'numeric',
     year: 'numeric',

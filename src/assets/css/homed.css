@@ -247,3 +247,13 @@ body.dark-mode footer {
 body.dark-mode footer .text-muted {
     color: #aaa !important;
 }
+
+#current_temp {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+#current_feelslike {
+    display: inline-block;
+    margin: 0 0 0 5px;
+}
