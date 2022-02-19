@@ -202,7 +202,7 @@ def auth_links(sections, headers):
     if "Remote-Groups" in headers:
         groups = headers["Remote-Groups"].split(",")
         for section in sections:
-            if "type" in section:
+            if "type" in section and section["type"] != "header":
                 continue
             for idx, link in enumerate(section["links"]):
                 if "authGroups" not in link:

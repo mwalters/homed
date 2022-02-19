@@ -91,10 +91,6 @@ svg.section-link-icon {
   cursor: auto;
 }
 
-.icon-user {
-  font-size: 1.5em;
-}
-
 .weather-alert-title {
   margin-bottom: 5px;
 }
@@ -104,11 +100,15 @@ svg.section-link-icon {
 }
 
 .control-darkmode-wrap {
-  padding-left: 3.5em;
+  padding-left: 3em;
 }
 
 .dark-mode-label {
   margin-left: 5px;
+}
+
+body.dark-mode .dark-mode-label {
+    color: #fff;
 }
 
 .hour-forecast, .day-forecast {
@@ -182,18 +182,29 @@ body.dark-mode .section-link:link, body.dark-mode .section-link:visited, body.da
   color: #fff;
 }
 
+ul.dropdown-menu, .navbar-dark .navbar-nav, .navbar-dark .navbar-nav .dropdown-item .nav-link {
+    color: #000;
+}
+
+.dropdown-menu .dropdown-divider {
+    border-top: 1px solid #333;
+}
+
+body.dark-mode .dropdown-divider {
+    border-top: 1px solid #fff;
+}
+
+body.dark-mode ul.dropdown-menu, body.dark-mode .navbar-dark .navbar-nav, body.dark-mode .navbar-dark .navbar-nav .dropdown-item .nav-link {
+    color: #fff;
+}
+
 body.dark-mode ul.dropdown-menu {
-  background-color: #444;
+  background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity))!important;
   color: #fff;
 }
 
-body.dark-mode ul.dropdown-menu li, body.dark-mode ul.dropdown-menu a:link, body.dark-mode ul.dropdown-menu a:visited, body.dark-mode ul.dropdown-menu a:hover, body.dark-mode ul.dropdown-menu a:active {
-  color: #fff;
-  background-color: #444;
-}
-
-body.dark-mode ul.dropdown-menu a:hover, body.dark-mode ul.dropdown-menu a:active {
-  background-color: #222;
+body.dark-mode ul.dropdown-menu li:hover, body.dark-mode ul.dropdown-menu a:hover, body.dark-mode ul.dropdown-menu a:active {
+    background-color: #444!important;
 }
 
 body.dark-mode .alert-warning {
@@ -221,7 +232,6 @@ body.dark-mode .section-link-subtext {
 }
 
 body.dark-mode nav, body.dark-mode .nav-link {
-    background-color: #444;
     color: #fff;
 }
 
@@ -234,9 +244,18 @@ body.dark-mode .weather-tabs {
     border-bottom: none;
 }
 
+.btn-warning {
+    width: 100%;
+}
+
 body.dark-mode .weather-tabs .nav-link.active {
     background-color: #666;
     border-color: #666;
+    color: #fff;
+}
+
+body.dark-mode .modal-content {
+    background: #444;
     color: #fff;
 }
 

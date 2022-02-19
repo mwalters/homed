@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div class="" role="alert">
+    <div class="weather-alert" role="alert">
         {% if weather["alerts"] %}
             {% for alert in weather["alerts"]: %}
                 <div class="modal fade" id="weather-modal-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="weather-modal-{{ loop.index }}" aria-hidden="true">

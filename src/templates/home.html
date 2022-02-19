@@ -17,18 +17,36 @@
                 {% if user['username'] and config['auth_ui_link'] != False %}
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% for section in sections %}
+                            {% set section_css_classes = section["css_classes"]|join(" ") %}
+                            {% if "type" in section: %}
+                                {% if section["type"] == "header" %}
+
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ section["menu_header"] }}</a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            {% for link in section["links"] %}
+                                            <li class="dropdown-item"><a class="nav-link" href="{{ link['link'] }}"{% if config['open_links_in_new_window']  %} target="_blank"{% endif %}>{{ link["name"] }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user['name'] }} ({{ user['username'] }}) <i class="icon-user fas fa-user-secret"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li class="dropdown-item">
                                     <div class="control-darkmode-wrap form-check form-switch">
                                         <input id="control-darkmode" class="control-darkmode form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                                         <label class="dark-mode-label form-check-label" for="flexSwitchCheckDefault">Dark Mode</label>
                                     </div>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ config['auth_ui_link'] }}">Log In &#47; Out</a></li>
-                                <li class="dropdown-divider"></li>
-                                <li class="dropdown-item">homed v{{ version }}</li>
+                                <li class="dropdown-item"><a class="nav-link" href="{{ config['auth_ui_link'] }}">Log In &#47; Out</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li class="dropdown-item"><a class="nav-link" href="#">homed v{{ version }}</a></li>
                             </ul>
                         </li>
                     </ul>

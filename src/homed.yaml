@@ -15,6 +15,22 @@ motd:                           # Optional section
 
 # Sections is a list of sections to be displayed on the page
 sections:
+  - menu_header: "Shopping"
+    order: 0
+    type: header
+    links:
+      - name: Amazon
+        link: https://smile.amazon.com
+        authGroups:
+          - users
+      - name: Huckberry
+        link: https://huckberry.com/
+        authGroups:
+          - users
+      - name: BladeHQ
+        link: https://www.bladehq.com/
+        authGroups:
+          - users
   - name: "Internal"                # Required - Name for the section
     order: 1                        # Required - Order in which to display the sections
     links:                          # Optional ... but, why have a section if you aren't adding links? :)
