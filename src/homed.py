@@ -339,12 +339,8 @@ def get_weather(sections):
 
                 weather = {
                     "system_on": True,
-                    "nws_forecast": "https://www.weather.gov/{weather_radar}/".format(
-                        weather_radar=weather_radar
-                    ),
-                    "radar": "https://radar.weather.gov/ridge/lite/K{weather_radar}_loop.gif".format(
-                        weather_radar=weather_radar
-                    ),
+                    "nws_forecast": f"https://www.weather.gov/{weather_radar}/",
+                    "radar": f"https://radar.weather.gov/ridge/lite/K{weather_radar}_loop.gif",
                     "current_conditions": current_conditions,
                     "forecast": forecast,
                     "weather_radar": weather_radar,
