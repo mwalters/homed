@@ -137,7 +137,21 @@ def homed_weather():
     sections = auth_links(
         sorted(config["sections"], key=itemgetter("order")), request.headers
     )
-    return json.dumps(get_weather(sections))
+    weather = get_weather(sections)
+
+    weather_section = {}
+    for section in sections:
+        if "type" in section and section["type"] == "weather":
+            weather_section = section
+
+    return render_template(
+        "./weather.html",
+        section=weather_section,
+        config=config,
+        weather=weather,
+    )
+
+    # return json.dumps(get_weather(sections))
 
 
 def enrich_config():

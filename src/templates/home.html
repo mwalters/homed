@@ -71,7 +71,9 @@
                         {% if section["type"] == "links" %}
                             {% include "links.html" with context %}
                         {% elif weather["system_on"] and section['type'] == "weather": %}
-                            {% include "weather.html" with context %}
+                            <div id="weather-section" class="col-lg-4 link-section {{ section_css_classes }}">
+                                {% include "weather.html" with context %}
+                            </div>
                         {% endif %}
                     {% endif %}
                 {% endfor %}

@@ -32,14 +32,12 @@ function refresh_weather() {
   var currentRadar = document.getElementById('currentRadar');
 
   console.log(hdate(), 'Refreshing radar loop')
-  currentRadar.src = 'https://radar.weather.gov/ridge/lite/K' + currentRadar.dataset.radar + '_loop.gif?' + new Date().getTime();
   setRadarTimer();
   fetch('/homedweather', { method: 'GET' })
-    .then(Result => Result.json())
+    .then(Result => Result.text())
     .then(weather => {
-      console.log(hdate(), 'Updating current temp and feels-like temp', weather);
-      document.getElementById('current_temp').innerHTML = Math.round(weather.current_conditions.main.temp);
-      document.getElementById('current_feelslike').innerHTML = Math.round(weather.current_conditions.main.feels_like);
+      console.log(hdate(), 'Updating weather HTML');
+      document.getElementById('weather-section').innerHTML = weather;
     })
 }
 
