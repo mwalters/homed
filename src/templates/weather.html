@@ -16,7 +16,7 @@
             Sunrise: {{ weather['current_conditions']['sys']['sunrise_human'] }} &#47; Sunset: {{ weather['current_conditions']['sys']['sunset_human'] }}
         </div>
 
-        <a href="{{ weather['nws_forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img id="currentRadar" src="{{ weather['radar'] }}" data-radar="{{ weather['weather_radar'] }}" width="100%"></a>
+        <a href="{{ weather['nws_forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img id="currentRadar" src="{{ weather['radar'] }}?{{ timestamp }}" data-radar="{{ weather['weather_radar'] }}" width="100%"></a>
         <div class="d-flex justify-content-center weather-current">
             <span id="radarId">{{ weather['weather_radar']}} Radar Loop</span>
         </div>

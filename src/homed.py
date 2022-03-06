@@ -2,7 +2,7 @@ from flask import Flask, render_template, send_from_directory, request, json
 from logging.config import dictConfig
 from operator import itemgetter
 import urllib.parse
-import os, sys, re, yaml, logging, feedparser, requests, datetime
+import os, sys, re, yaml, logging, feedparser, requests, datetime, time
 
 version = "1.3.0-prerelease"
 
@@ -28,6 +28,8 @@ def display_home():
         "dark-mode" if "dark_mode" in config and config["dark_mode"] else "light-mode"
     )
 
+    ts = int(time.time())
+
     return render_template(
         "./home.html",
         config=config,
@@ -36,6 +38,7 @@ def display_home():
         weather=weather,
         sections=sections,
         version=version,
+        timestamp=ts,
     )
 
 
@@ -144,11 +147,14 @@ def homed_weather():
         if "type" in section and section["type"] == "weather":
             weather_section = section
 
+    ts = int(time.time())
+
     return render_template(
         "./weather.html",
         section=weather_section,
         config=config,
         weather=weather,
+        timestamp=ts,
     )
 
     # return json.dumps(get_weather(sections))
