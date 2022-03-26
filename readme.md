@@ -12,7 +12,7 @@ Dark Mode:
 <img src="https://github.com/mwalters/homed/raw/main/screenshots/homed-dark.png?raw=true" alt="homed" width="100%">
 
 Weather:
-* Displays current local radar and refreshes every 15 minutes
+* Displays current local radar and refreshes every 5 minutes
 * 12-hour forecast
 * 5-day forecast
 <img src="https://github.com/mwalters/homed/raw/main/screenshots/homed-weather.png?raw=true" alt="homed" width="100%">
