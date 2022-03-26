@@ -1,89 +1,85 @@
-<div class="col-lg-4 link-section {{ section_css_classes }}">
-    <div class="section-name">{{ section["name"] }}</div>
-    <nav>
-        <div class="nav nav-tabs weather-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active" id="nav-current-tab" data-bs-toggle="tab" data-bs-target="#nav-current" type="button" role="tab" aria-controls="nav-current" aria-selected="true">Current</button>
-            <button class="nav-link" id="nav-hourly-tab" data-bs-toggle="tab" data-bs-target="#nav-hourly" type="button" role="tab" aria-controls="nav-hourly" aria-selected="false">Next 12h</button>
-            <button class="nav-link" id="nav-daily-tab" data-bs-toggle="tab" data-bs-target="#nav-daily" type="button" role="tab" aria-controls="nav-daily" aria-selected="false">Next 5d</button>
-        </div>
-    </nav>
+<div class="section-name">{{ section["name"] }}</div>
+<nav>
+    <div class="nav nav-tabs weather-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-current-tab" data-bs-toggle="tab" data-bs-target="#nav-current" type="button" role="tab" aria-controls="nav-current" aria-selected="true">Current</button>
+        <button class="nav-link" id="nav-hourly-tab" data-bs-toggle="tab" data-bs-target="#nav-hourly" type="button" role="tab" aria-controls="nav-hourly" aria-selected="false">Next 12h</button>
+        <button class="nav-link" id="nav-daily-tab" data-bs-toggle="tab" data-bs-target="#nav-daily" type="button" role="tab" aria-controls="nav-daily" aria-selected="false">Next 5d</button>
+    </div>
+</nav>
 
-    <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-current" role="tabpanel" aria-labelledby="nav-current-tab">
-            <div class="d-flex justify-content-center weather-current">
-                Temp: {{ weather['current_conditions']['main']['temp']|round|int }} (Feels like: {{ weather['current_conditions']['main']['feels_like']|round|int }})<br>
-            </div>
-            <div class="d-flex justify-content-center weather-current">
-                Sunrise: {{ weather['current_conditions']['sys']['sunrise_human'] }} &#47; Sunset: {{ weather['current_conditions']['sys']['sunset_human'] }}
-            </div>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-current" role="tabpanel" aria-labelledby="nav-current-tab">
+        <div class="d-flex justify-content-center weather-current">
+            Temp: <span id="current_temp">{{ weather['current_conditions']['main']['temp']|round|int }}</span> (Feels like: <span id="current_feelslike">{{ weather['current_conditions']['main']['feels_like']|round|int }}</span>)
+        </div>
+        <div class="d-flex justify-content-center weather-current">
+            Sunrise: {{ weather['current_conditions']['sys']['sunrise_human'] }} &#47; Sunset: {{ weather['current_conditions']['sys']['sunset_human'] }}
+        </div>
 
-            <a href="{{ weather['nws_forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img id="currentRadar" src="{{ weather['radar'] }}" data-radar="{{ weather['weather_radar'] }}" data-state="loop" width="100%"></a>
-            <div class="d-flex justify-content-center weather-current">
-                <span id="radarId">{{ weather['weather_radar']}} Radar Loop</span>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="nav-hourly" role="tabpanel" aria-labelledby="nav-hourly-tab">
-            <ul class="list-group list-group-flush">
-                {% for hour in weather['forecast']['hourly']: %}
-                    <li class="list-group-item forecast-hourly">
-                        <span class="badge bg-primary">{{ hour['dt_human'] }}</span>
-                        <div class="hour-forecast">
-                            Temp: {{ hour['temp'] }} (Feels: {{ hour['feels_like']|round|int }})<br>
-                            Conditions: {{ hour['weather'][0]['description'] }}<br>
-                            Wind: {{ hour['wind_speed']|round|int }}mph / {{ hour['wind_deg_human'] }}
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="tab-pane fade" id="nav-daily" role="tabpanel" aria-labelledby="nav-daily-tab">
-            <ul class="list-group list-group-flush">
-                {% for day in weather['forecast']['daily']: %}
-                    <li class="list-group-item forecast-daily">
-                        <span class="badge bg-primary">{{ day['dt_human'] }}</span>
-                        <div class="day-forecast">
-                            High: {{ day['temp']['max']|round|int }} -> Low {{ day['temp']['min']|round|int }}<br>
-                            Conditions: {{ day['weather'][0]['description'] }}<br>
-                            Wind: {{ day['wind_speed']|round|int }} / {{ day['wind_deg_human'] }}
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
+        <a href="{{ weather['nws_forecast'] }}"{% if config['open_links_in_new_window'] %} target="_blank"{% endif %}><img id="currentRadar" src="{{ weather['radar'] }}?{{ timestamp }}" data-radar="{{ weather['weather_radar'] }}" width="100%"></a>
+        <div class="d-flex justify-content-center weather-current">
+            <span id="radarId">{{ weather['weather_radar']}} Radar Loop</span>
         </div>
     </div>
-
-    <div class="" role="alert">
-        {% if weather["alerts"] %}
-            {% for alert in weather["alerts"]: %}
-                <div class="modal fade" id="weather-modal-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="weather-modal-{{ loop.index }}" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="weather-modal-{{ loop.index }}">{{ alert['event'] }}</h5>
-                      </div>
-                      <div class="modal-body">
-                        <p>{{ alert['timerange_human'] }}</p>
-                        <p>{{ alert['description'] | safe }}</p>
-                        <p>
-                            Alert tags:
-                            {% for tag in alert['tags']: %}
-                                <span class="badge badge-warning">{{ tag }}</span>
-                            {% endfor %}
-                        </p>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      </div>
+    <div class="tab-pane fade" id="nav-hourly" role="tabpanel" aria-labelledby="nav-hourly-tab">
+        <ul class="list-group list-group-flush">
+            {% for hour in weather['forecast']['hourly']: %}
+                <li class="list-group-item forecast-hourly">
+                    <span class="badge bg-primary">{{ hour['dt_human'] }}</span>
+                    <div class="hour-forecast">
+                        <i class="fas fa-thermometer-half"></i> {{ hour['temp']|round|int }}&#176; (Feels: {{ hour['feels_like']|round|int }}&#176;)<br>
+                        <i class="fas fa-wind"></i> {{ hour['wind_speed']|round|int }}mph &nbsp; <i class="far fa-compass"></i> {{ hour['wind_deg_human'] }}<br>
+                        {{ hour['weather'][0]['description'] }}
                     </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="tab-pane fade" id="nav-daily" role="tabpanel" aria-labelledby="nav-daily-tab">
+        <ul class="list-group list-group-flush">
+            {% for day in weather['forecast']['daily']: %}
+                <li class="list-group-item forecast-daily">
+                    <span class="badge bg-primary">{{ day['dt_human'] }}</span>
+                    <div class="day-forecast">
+                         <i class="fas fa-thermometer-quarter"></i> {{ day['temp']['min']|round|int }}&#176; <i class="fas fa-long-arrow-alt-right"></i> <i class="fas fa-thermometer-three-quarters"></i> {{ day['temp']['max']|round|int }}&#176;<br>
+                        <i class="fas fa-wind"></i> {{ day['wind_speed']|round|int }} &nbsp; <i class="far fa-compass"></i> {{ day['wind_deg_human'] }}<br>
+                        {{ day['weather'][0]['description'] }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="weather-alert" role="alert">
+    {% if weather["alerts"] %}
+        {% for alert in weather["alerts"]: %}
+            <div class="modal fade" id="weather-modal-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="weather-modal-{{ loop.index }}" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="weather-modal-{{ loop.index }}">{{ alert['event'] }}</h5>
+                  </div>
+                  <div class="modal-body">
+                    <p>{{ alert['timerange_human'] }}</p>
+                    <p>{{ alert['description'] | safe }}</p>
+                    <p>
+                        Alert tags:
+                        {% for tag in alert['tags']: %}
+                            <span class="badge badge-warning">{{ tag }}</span>
+                        {% endfor %}
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#weather-modal-{{ loop.index }}">
-                    <i class="fas fa-exclamation-triangle"></i> View {{ alert['event'] }}
-                </button>
-            {% endfor %}
-        {% endif %}
-    </div>
-
-
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#weather-modal-{{ loop.index }}">
+                <i class="fas fa-exclamation-triangle"></i> View {{ alert['event'] }}
+            </button>
+        {% endfor %}
+    {% endif %}
 </div>

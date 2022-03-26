@@ -9,42 +9,98 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl)
 })
 
+var [servicesTotal, servicesHealthy, servicesUnhealthy] = [0,0,0];
+var radarTimer = 5 * 60 * 1000; // 5 Minutes
+var serviceTimer = 5 * 60 * 1000; // 5 Minutes
+
 function darkmodeTender() {
   chk = document.getElementById('control-darkmode');
   chk.addEventListener('click', function() {
     if (this.checked) {
       document.body.classList.remove("light-mode");
       document.body.classList.add("dark-mode");
-      console.log('Dark mode toggled on');
+      console.log(hdate(), 'Dark mode toggled on');
     } else {
       document.body.classList.remove("dark-mode");
       document.body.classList.add("light-mode");
-      console.log('Dark mode toggled off');
+      console.log(hdate(), 'Dark mode toggled off');
     }
   });
 }
 
-function refresh_radar() {
-  currentRadar = document.getElementById('currentRadar');
-  radarId = document.getElementById('radarId');
-  radar_code = currentRadar.dataset.radar;
-  radar_static = 'https://radar.weather.gov/ridge/lite/K' + radar_code + '_9.gif';
-  radar_loop = 'https://radar.weather.gov/ridge/lite/K' + radar_code + '_loop.gif?' + new Date().getTime();
+function refresh_weather() {
+  var currentRadar = document.getElementById('currentRadar');
 
-  if (currentRadar.dataset.state == "loop") {
-    console.log('Changing radar to static');
-    currentRadar.src = radar_static;
-    currentRadar.dataset.state = "static"
-    radarId.innerHTML = radar_code + " Radar (loop is loading)"
-    console.log('Waiting 5 seconds before loading loop again')
-    setTimeout(function() { refresh_radar(); }, 5000);
-  } else {
-    console.log('Changing radar to loop');
-    currentRadar.dataset.state = "loop"
-    currentRadar.src = radar_loop;
-    radarId.innerHTML = radar_code + " Radar Loop"
-  }
+  console.log(hdate(), 'Refreshing radar loop')
+  setRadarTimer();
+  fetch('/homedweather', { method: 'GET' })
+    .then(Result => Result.text())
+    .then(weather => {
+      console.log(hdate(), 'Updating weather HTML');
+      document.getElementById('weather-section').innerHTML = weather;
+    })
+}
 
+function refresh_status_checks() {
+  console.log(hdate(), "Refreshing status checks");
+  servicesTotal = 0;
+  servicesHealthy = 0;
+  servicesUnhealthy = 0;
+  status_checks = document.querySelectorAll('[data-statuscheck="True"]').forEach(status_check => {
+    status_check.classList.add("service-health")
+    if ('statusservice' in status_check.dataset && status_check.dataset.statuscheck === 'True') {
+      var url = '/serviceStatus/' + status_check.dataset.statusservice;
+
+      console.log(hdate(), 'Status check for:', status_check.dataset.statusservice, url);
+
+      fetch(url, { method: 'GET' })
+        .then(Result => Result.json())
+        .then(status_check => {
+          var statusEl = document.getElementById('footer-text');
+          console.log(hdate(), 'Status check result:', status_check);
+          el = document.querySelectorAll('[data-statusservice="' + status_check.service + '"]').forEach(service_el => {
+            servicesTotal++;
+            if (status_check.status_code == 200) {
+              servicesHealthy++;
+              service_el.classList.add("service-healthy")
+            } else {
+              servicesUnhealthy++;
+              service_el.classList.add("service-unhealthy")
+            }
+          })
+
+          statusEl.innerHTML = servicesTotal + ' services (' + servicesHealthy + ' Up, ' + servicesUnhealthy + ' down) - Updated: ' + hdate();
+        })
+    }
+  })
+
+  setServiceStatusTimer();
+}
+
+function hdate() {
+  return new Date().toLocaleDateString(navigator.languages[0], {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+    hour12: false,
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+  })
+}
+
+function setRadarTimer() {
+  setTimeout(function() {
+    refresh_weather();
+  }, radarTimer); // Refresh radar every 5 minutes
+  console.log(hdate(), 'Created radar refresh trigger');
+}
+
+function setServiceStatusTimer() {
+  setTimeout(function() {
+    refresh_status_checks();
+  }, serviceTimer); // Refresh status checks every 5 minutes
+  console.log(hdate(), 'Created status check refresh trigger');
 }
 
 function ready(fn) {
@@ -57,13 +113,12 @@ function ready(fn) {
 
 ready(function () {
   darkmodeTender();
-  setTimeout(function() {
-    refresh_radar();
-  }, 900000); // Refresh radar every 15 minutes 900000
-  console.log('Created radar refresh trigger');
 
   if (document.body.classList.contains('dark-mode')) {
-    console.log('Dark mode on');
+    console.log(hdate(), 'Dark mode on');
     document.getElementById('control-darkmode').setAttribute("checked", "true");
   }
+
+  setRadarTimer();
+  refresh_status_checks();
 });

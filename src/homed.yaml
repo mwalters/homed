@@ -15,14 +15,31 @@ motd:                           # Optional section
 
 # Sections is a list of sections to be displayed on the page
 sections:
-  - name: "Internal"
-    order: 1
+  - menu_header: "Shopping"
+    order: 0
+    type: header
+    links:
+      - name: Amazon
+        link: https://smile.amazon.com
+        authGroups:
+          - users
+      - name: Huckberry
+        link: https://huckberry.com/
+        authGroups:
+          - users
+      - name: BladeHQ
+        link: https://www.bladehq.com/
+        authGroups:
+          - users
+  - name: "Internal"                # Required - Name for the section
+    order: 1                        # Required - Order in which to display the sections
     links:                          # Optional ... but, why have a section if you aren't adding links? :)
       - name: Plex                  # Required - Text to display for the link
         subtext: "View local media" # Optional - Text that displays under link
         link: https://yourhost/plex # Required - URL to take the user to when clicked
         icon: far fa-play-circle    # Required - Image URL or FontAwesome CSS classes
         context: primary            # Optional - Colorizes item, options: primary, secondary, success, danger, warning, info, light, dark
+        status_check: True          # Optional - Set to True to have homed check for a 200 status code from the link URL
         css_classes:                # Optional list - CSS classes to be added to the link wrapper
           - personal_media
         authGroups:                 # Optional list of user groups that this link shall be visible to
@@ -37,6 +54,7 @@ sections:
         subtext: Docker logs
         link: https://yourhost/dozzle/
         icon: fas fa-list-ul
+        status_check: True
         authGroups:
           - admins
   - name: "Quick Links"
