@@ -4,7 +4,7 @@ from operator import itemgetter
 import urllib.parse
 import os, sys, re, yaml, logging, feedparser, requests, datetime, time
 
-version = "1.3.1"
+version = "1.3.2"
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -114,6 +114,7 @@ def service_status(service):
                 if link["status_check"] and link["name"].lower() == service:
                     app.logger.info("Requesting: {link}".format(link=link["link"]))
                     r = requests.get(link["link"])
+                    service_name = link["name"].lower()
                     status_code = r.status_code
                     app.logger.info(
                         "Recevied status code: {status_code}".format(
@@ -127,7 +128,7 @@ def service_status(service):
     return str(
         json.dumps(
             {
-                "service": urllib.parse.quote(service, safe="").lower(),
+                "service": urllib.parse.quote(service_name, safe="").lower(),
                 "status_code": status_code,
             }
         )
