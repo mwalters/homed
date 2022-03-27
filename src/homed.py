@@ -4,7 +4,7 @@ from operator import itemgetter
 import urllib.parse
 import os, sys, re, yaml, logging, feedparser, requests, datetime, time
 
-version = "1.3.0"
+version = "1.3.1"
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -235,14 +235,12 @@ def auth_links(sections, headers):
 
 
 def get_user(headers):
-    if os.environ["FLASK_ENV"] == "development":
-        return {
-            "username": "mwalters",
-            "name": "Matt",
-            "email": "test@testing.com",
-            "groups": ["admins", "users"],
-        }
-    user = {}
+    user = {
+        "username": "anonymous",
+        "name": "Anonymous",
+        "email": "anon@anonymous.com",
+        "groups": ["admins", "users"],
+    }
     if "Remote-User" in headers:
         user["username"] = headers["Remote-User"]
     if "Remote-Name" in headers:
