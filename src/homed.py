@@ -4,7 +4,7 @@ from operator import itemgetter
 import urllib.parse
 import os, sys, re, yaml, logging, feedparser, requests, datetime, time
 
-version = "1.3.2"
+version = "1.4.0-prerelease"
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
