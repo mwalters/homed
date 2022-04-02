@@ -119,6 +119,19 @@ ready(function () {
     document.getElementById('control-darkmode').setAttribute("checked", "true");
   }
 
+  document.addEventListener('keydown', function (event) {
+    if (event.key === '/') {
+      console.log(document.activeElement)
+      console.log(document.getElementById("homed-search-field"));
+      if (document.activeElement !== document.getElementById("homed-search-field")) {
+        var modal = document.getElementById("search-modal");
+        console.log('Search form toggle');
+        document.getElementById("search-toggle").click();
+        setTimeout(function() { document.getElementById("homed-search-field").focus(); }, 500);
+      }
+    }
+  });
+
   setRadarTimer();
   refresh_status_checks();
 });

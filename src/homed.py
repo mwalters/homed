@@ -187,6 +187,14 @@ def enrich_config():
     if "enabled" not in config["motd"]:
         config["motd"]["enabled"] = True
 
+    if "search_provider" not in config:
+        config["search_provider"] = "google"
+        config["search_url"] = "https://www.google.com/search"
+    elif config["search_provider"] == "google":
+        config["search_url"] = "https://www.google.com/search"
+    elif config["search_provider"] == "duckduckgo":
+        config["search_url"] = "https://duckduckgo.com/"
+
     for section in config["sections"]:
         if "name" in section:
             if "css_classes" not in section:

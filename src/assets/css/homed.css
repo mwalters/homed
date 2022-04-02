@@ -276,3 +276,16 @@ body.dark-mode footer .text-muted {
     display: inline-block;
     margin: 0 0 0 5px;
 }
+
+button.close {
+    border: 0;
+    background: transparent;
+}
+
+.search-form {
+    width: 100%;
+}
+
+#search-toggle {
+    display: none;
+}
