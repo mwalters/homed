@@ -126,10 +126,16 @@ ready(function () {
       if (document.activeElement !== document.getElementById("homed-search-field")) {
         var modal = document.getElementById("search-modal");
         console.log('Search form toggle');
+        document.getElementById("homed-search-field").value = "";
         document.getElementById("search-toggle").click();
         setTimeout(function() { document.getElementById("homed-search-field").focus(); }, 500);
       }
     }
+  });
+
+  var search_form = document.getElementById("homed-search-form");
+  search_form.addEventListener("submit", function(e) {
+    document.getElementById("search-toggle").click();
   });
 
   setRadarTimer();
