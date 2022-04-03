@@ -3,6 +3,8 @@ dark_mode: false                # Optional - true to turn on dark mode
 open_links_in_new_window: true  # Optional - whether you want links to open in a new window
 auth_ui_link: https://yourhost/authelia # Optional - link to your auth system UI
 
+search_provider: google
+
 motd:                           # Optional section
   enabled: false                # Optional - If not present, true is assumed. Can be used to disable MOTD without deleting config.
   type: info                    # Required if `motd` section is present, options: info, warning, danger

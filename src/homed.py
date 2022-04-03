@@ -4,7 +4,7 @@ from operator import itemgetter
 import urllib.parse
 import os, sys, re, yaml, logging, feedparser, requests, datetime, time
 
-version = "1.3.2"
+version = "1.4.0-prerelease"
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -186,6 +186,14 @@ def enrich_config():
         config["motd"] = {"enabled": False}
     if "enabled" not in config["motd"]:
         config["motd"]["enabled"] = True
+
+    if "search_provider" not in config:
+        config["search_provider"] = "google"
+        config["search_url"] = "https://www.google.com/search"
+    elif config["search_provider"] == "google":
+        config["search_url"] = "https://www.google.com/search"
+    elif config["search_provider"] == "duckduckgo":
+        config["search_url"] = "https://duckduckgo.com/"
 
     for section in config["sections"]:
         if "name" in section:

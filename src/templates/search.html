@@ -1,0 +1,12 @@
+<button id="search-toggle" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".homed-search-modal">Small modal</button>
+<div id="search-modal" class="modal fade homed-search-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <form id="homed-search-form" action="{{ config['search_url'] }}" method="get" target="_blank">
+                <input type="search" placeholder="{{ config['search_provider'] }}" id="homed-search-field" class="search-form form-control-lg" name="q">
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
