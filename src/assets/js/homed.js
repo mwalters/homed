@@ -120,10 +120,11 @@ ready(function () {
   }
 
   document.addEventListener('keydown', function (event) {
-    if (event.key === '/') {
-      console.log(document.activeElement)
-      console.log(document.getElementById("homed-search-field"));
-      if (document.activeElement !== document.getElementById("homed-search-field")) {
+    if (document.activeElement !== document.getElementById("homed-search-field")) {
+      if (event.key === '?') {
+        console.log('Shortcut help toggle');
+        document.getElementById("shortcuts-toggle").click();
+      } else if (event.key === '/') {
         var modal = document.getElementById("search-modal");
         console.log('Search form toggle');
         document.getElementById("homed-search-field").value = "";
