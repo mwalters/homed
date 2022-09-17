@@ -230,17 +230,35 @@ def enrich_config():
 def auth_links(sections, headers):
     if "Remote-Groups" in headers:
         groups = headers["Remote-Groups"].split(",")
-        for section in sections:
-            if "type" in section and section["type"] != "header":
+
+        return_sections = []
+        for idx, section in enumerate(sections):
+            if "type" in section and section["type"] == "weather":
+                app.logger.info(f"Skipping (type in section and type weather: {section}")
+                return_sections.append(section)
                 continue
+
+            links = []
             for idx, link in enumerate(section["links"]):
+                
                 if "authGroups" not in link:
+                    app.logger.info(f"+++ Keeping this because no authGroups: {link}")
+                    links.append(section["links"][idx])
                     continue
+                
                 for authGroup in link["authGroups"]:
                     if authGroup not in groups:
-                        section["links"].pop(idx)
+                        app.logger.info(f"---- Removing this because not in groups: {link['name']}")
+                        # section["links"].pop(idx)
+                    else:
+                        app.logger.info(f"++++ Keeping this because in groups: {link['name']}")
+                        links.append(section["links"][idx])
 
-    return sections
+            section["links"] = links
+            if len(section["links"]) > 0:
+                return_sections.append(section)
+
+    return return_sections
 
 
 def get_user(headers):
@@ -258,6 +276,8 @@ def get_user(headers):
         user["email"] = headers["Remote-Email"]
     if "Remote-Groups" in headers:
         user["groups"] = headers["Remote-Groups"].split(",")
+
+    app.logger.info(f"==== User: {user}")
 
     return user
 
