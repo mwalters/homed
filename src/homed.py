@@ -228,10 +228,11 @@ def enrich_config():
 
 
 def auth_links(sections, headers):
+    return_sections = []
+
     if "Remote-Groups" in headers:
         groups = headers["Remote-Groups"].split(",")
 
-        return_sections = []
         for idx, section in enumerate(sections):
             if "type" in section and section["type"] == "weather":
                 app.logger.info(f"Skipping (type in section and type weather: {section}")
@@ -258,6 +259,8 @@ def auth_links(sections, headers):
             if len(section["links"]) > 0:
                 return_sections.append(section)
 
+    if len(return_sections) == 0: return_sections = sections
+    
     return return_sections
 
 
