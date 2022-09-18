@@ -79,6 +79,10 @@
                 {% endfor %}
             </div>
         </div>
+
+        {% include "search.html" with context %}
+        {% include "shortcuts.html" with context %}
+
         <footer class="footer">
             <div class="container">
                 <span id="footer-text" class="text-muted"></span>

@@ -119,6 +119,26 @@ ready(function () {
     document.getElementById('control-darkmode').setAttribute("checked", "true");
   }
 
+  document.addEventListener('keydown', function (event) {
+    if (document.activeElement !== document.getElementById("homed-search-field")) {
+      if (event.key === '?') {
+        console.log('Shortcut help toggle');
+        document.getElementById("shortcuts-toggle").click();
+      } else if (event.key === '/') {
+        var modal = document.getElementById("search-modal");
+        console.log('Search form toggle');
+        document.getElementById("homed-search-field").value = "";
+        document.getElementById("search-toggle").click();
+        setTimeout(function() { document.getElementById("homed-search-field").focus(); }, 500);
+      }
+    }
+  });
+
+  var search_form = document.getElementById("homed-search-form");
+  search_form.addEventListener("submit", function(e) {
+    document.getElementById("search-toggle").click();
+  });
+
   setRadarTimer();
   refresh_status_checks();
 });

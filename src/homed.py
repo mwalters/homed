@@ -4,7 +4,7 @@ from operator import itemgetter
 import urllib.parse
 import os, sys, re, yaml, logging, feedparser, requests, datetime, time
 
-version = "1.3.2"
+version = "1.4.0-prerelease"
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -187,6 +187,14 @@ def enrich_config():
     if "enabled" not in config["motd"]:
         config["motd"]["enabled"] = True
 
+    if "search_provider" not in config:
+        config["search_provider"] = "google"
+        config["search_url"] = "https://www.google.com/search"
+    elif config["search_provider"] == "google":
+        config["search_url"] = "https://www.google.com/search"
+    elif config["search_provider"] == "duckduckgo":
+        config["search_url"] = "https://duckduckgo.com/"
+
     for section in config["sections"]:
         if "name" in section:
             if "css_classes" not in section:
@@ -220,19 +228,40 @@ def enrich_config():
 
 
 def auth_links(sections, headers):
+    return_sections = []
+
     if "Remote-Groups" in headers:
         groups = headers["Remote-Groups"].split(",")
-        for section in sections:
-            if "type" in section and section["type"] != "header":
+
+        for idx, section in enumerate(sections):
+            if "type" in section and section["type"] == "weather":
+                app.logger.info(f"Skipping (type in section and type weather: {section}")
+                return_sections.append(section)
                 continue
+
+            links = []
             for idx, link in enumerate(section["links"]):
+                
                 if "authGroups" not in link:
+                    app.logger.info(f"+++ Keeping this because no authGroups: {link}")
+                    links.append(section["links"][idx])
                     continue
+                
                 for authGroup in link["authGroups"]:
                     if authGroup not in groups:
-                        section["links"].pop(idx)
+                        app.logger.info(f"---- Removing this because not in groups: {link['name']}")
+                        # section["links"].pop(idx)
+                    else:
+                        app.logger.info(f"++++ Keeping this because in groups: {link['name']}")
+                        links.append(section["links"][idx])
 
-    return sections
+            section["links"] = links
+            if len(section["links"]) > 0:
+                return_sections.append(section)
+
+    if len(return_sections) == 0: return_sections = sections
+    
+    return return_sections
 
 
 def get_user(headers):
@@ -250,6 +279,8 @@ def get_user(headers):
         user["email"] = headers["Remote-Email"]
     if "Remote-Groups" in headers:
         user["groups"] = headers["Remote-Groups"].split(",")
+
+    app.logger.info(f"==== User: {user}")
 
     return user
 
