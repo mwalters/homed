@@ -11,4 +11,4 @@ PyYAML==6.0
 requests==2.27.1
 sgmllib3k==1.0.0
 urllib3==1.26.8
-Werkzeug==2.0.2
+Werkzeug==2.2.3
