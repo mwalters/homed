@@ -240,7 +240,7 @@ def auth_links(sections, headers):
     return_sections = []
 
     if "Remote-Groups" in headers:
-        groups = headers["Remote-Groups"].split(",")
+        groups = re.split(r"[,|]", headers["Remote-Groups"])
 
         for idx, section in enumerate(sections):
             if "type" in section and section["type"] == "weather":
@@ -287,7 +287,7 @@ def get_user(headers):
     if "Remote-Email" in headers:
         user["email"] = headers["Remote-Email"]
     if "Remote-Groups" in headers:
-        user["groups"] = headers["Remote-Groups"].split(",")
+        user["groups"] = re.split(r"[,|]", headers["Remote-Groups"])
 
     app.logger.info(f"==== User: {user}")
 
